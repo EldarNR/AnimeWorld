@@ -1,0 +1,95 @@
+<template>
+    <v-dialog width="500" v-model="isActive">
+        <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" class="text-center">
+                <v-icon size="30">mdi-magnify</v-icon>
+            </v-btn>
+        </template>
+        <template v-slot:default>
+            <v-card subtitle="Введите название:" max-height="500px">
+                <div class="mr-2 ml-2">
+                    <v-text-field label="Поиск" v-model="inputValue" :rules="rules" hide-details="auto"
+                        class="density-compact"></v-text-field>
+                </div>
+                <v-card-actions>
+                    <v-btn text="Search" color="info" @click="search" variant="flat"></v-btn>
+                    <v-btn text="Reset" color="error" clearable @click="resetInput" variant="flat"></v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn text="Close Dialog" @click="close"></v-btn>
+                </v-card-actions>
+
+                <v-divider></v-divider>
+
+                <div v-if="getRequestData">
+                    <div v-if="getSearchList && getSearchList.data.list && getSearchList.data.list.length !== 0">
+                        <div v-for="(items, i) in getSearchList.data.list" :key="i">
+                            <SMCard :post="items" class="ma-1" @click="close" />
+                        </div>
+                    </div>
+                    <div v-else class="text-center mt-5 mb-5">
+                        <Empty />
+                    </div>
+                </div>
+                <span v-else-if="inputValue.length < 3" class="text-center ma-2">
+                    Введите слово для поиска...
+                </span>
+                <LoadingVue class="mx-auto my-auto" v-else />
+
+            </v-card>
+        </template>
+    </v-dialog>
+</template>
+
+<script lang="ts">
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
+import { api } from '../../state/api';
+import LoadingVue from '../UIElements/Loading.vue';
+import SMCard from '../UIElements/SMCard.vue';
+import Empty from '../UIElements/Empty.vue';
+export default {
+    components: { LoadingVue, SMCard, Empty },
+    data() {
+        return {
+            inputValue: '' as string, // Явно указываем тип строка
+            isActive: false, // Добавляем свойство для отслеживания состояния диалога
+            rules: [
+                (value: string | number | boolean) => !!value || "Required.",
+                (value: string) =>
+                    /^[a-zA-Z0-9\s]*$/.test(value) ||
+                    "Only letters, numbers, and spaces are allowed",
+            ],
+        };
+    },
+    setup() {
+        const store = useStore();
+        const getRequestData = computed(() => store.getters.showRequestSearch);
+        const getSearchList = computed(() => store.getters.getSearchList)
+        console.log(getRequestData)
+        return { getRequestData, getSearchList };
+    },
+    watch: {
+        inputValue(value: string) {
+            if (value && value.trim().length >= 6) {
+                console.log("Input value changed:", value);
+                api.dispatch('setSearchParams', value);
+            }
+        },
+    },
+    methods: {
+        search() {
+            console.log("Search button clicked");
+            if (typeof this.inputValue === 'string' && this.inputValue.trim() !== "") {
+                api.dispatch('setSearchParams', this.inputValue.trim());
+            }
+        },
+        close() {
+            this.isActive = false; // Закрываем диалоговое окно
+        },
+        resetInput() {
+            this.inputValue = '';
+        },
+    },
+};
+</script>
