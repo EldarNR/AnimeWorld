@@ -10,7 +10,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { api } from './state/api';
+
 import Navbar from './components/Layout/Navbar.vue';
 export default defineComponent({
   setup() {

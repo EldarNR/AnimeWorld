@@ -1,13 +1,13 @@
 <template>
     <div>
         <v-row>
-            <v-col xs="12" md="5" lg="4" xl="2" class="d-flex align-center justify-center">
+            <v-col xs="12" md="5" lg="4" xl="3" xxl="3" class="d-flex align-center justify-center">
                 <img cover class="d-flex justify-center ma-2" :src="`https://anilibria.tv${posts.posters.original.url}`"
                     alt="poster" />
 
             </v-col>
 
-            <v-col xs="12" md="7" lg="8" xl="10">
+            <v-col xs="12" md="7" lg="8" xl="9" xxl="9" class="float-right">
                 <v-divider :thickness="1" class="ml-2 mt-2 mb-2" vertical></v-divider>
 
                 <v-item-group>

@@ -1,0 +1,34 @@
+<template>
+    <v-main>
+        <span class="text-h3 ">New anime</span>
+
+        <Filter />
+
+        <v-row dense class="mt-2" justify="center">
+            <v-col v-for="(item, innerIndex) in getNewAnime.list" :key="innerIndex" xs="12" sm="12" md="6" lg="4" xl="3"
+                class="d-flex align-center justify-center">
+                <Card :card-data="item" class="mt-1" />
+            </v-col>
+        </v-row>
+
+    </v-main>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
+import Filter from "../UIElements/Filter.vue";
+
+import Card from "../UIElements/Card.vue";
+
+export default defineComponent({
+    components: { Card, Filter },
+    setup() {
+        const store = useStore();
+        const getNewAnime = computed(() => store.getters.getNewAnimeList.data);
+
+        return { getNewAnime };
+    }
+})
+</script>
+

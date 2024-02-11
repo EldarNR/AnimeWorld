@@ -74,8 +74,7 @@ router.beforeEach((to, from, next) => {
 const app = createApp(App);
 
 registerPlugins(app);
-
-app.use(router);
 app.use(store);
+app.use(router);
 
 app.mount("#app");

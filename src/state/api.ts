@@ -20,8 +20,9 @@ export const api = createStore({
       params: "",
     },
     new: {
-      method: "updates?",
-      params: "description_type=plain&playlist_type=array&limit=12",
+      method:
+        "updates?description_type=plain&playlist_type=array&items_per_page=10&page=",
+      params: "2",
     },
   },
   mutations: {
@@ -33,6 +34,9 @@ export const api = createStore({
     },
     setInfoParams(state, params) {
       state.info.params = params;
+    },
+    setNewListAnimeParams(state, params) {
+      state.new.params = params;
     },
   },
   actions: {
@@ -47,6 +51,20 @@ export const api = createStore({
       } finally {
         store.dispatch("getRequestList", true);
         console.log("Request Received");
+      }
+    },
+
+    async fetchNewAnime({ state }) {
+      try {
+        const response = await axios.get(
+          base + state.new.method + state.new.params
+        );
+        store.dispatch("getNewAnimeList", response);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        store.dispatch("getRequestNewAnimeList", true);
+        console.log("Request Received New Ainme!");
       }
     },
 
@@ -90,19 +108,7 @@ export const api = createStore({
         console.log("Request Received");
       }
     },
-    async fetchNewAnime({ state }) {
-      try {
-        const response = await axios.get(
-          base + state.new.method + state.new.params
-        );
-        store.dispatch("getNewAnimeList", response);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        // store.dispatch("getRequestSearch", true);
-        console.log("Request Received");
-      }
-    },
+
     setApiParams({ commit }, params) {
       commit("setApiParams", params);
     },
@@ -111,6 +117,9 @@ export const api = createStore({
     },
     setInfoParams({ commit }, params) {
       commit("setInfoParams", params);
+    },
+    setNewListAnimeParams({ commit }, params) {
+      commit("setNewListAnimeParams", params);
     },
   },
 });
@@ -136,6 +145,14 @@ api.watch(
   (state) => [state.info.method, state.info.params],
   () => {
     api.dispatch("fetchGetInfo");
+  },
+  { deep: true }
+);
+
+api.watch(
+  (state) => [state.new.method, state.new.params],
+  () => {
+    api.dispatch("fetchNewAnime");
   },
   { deep: true }
 );

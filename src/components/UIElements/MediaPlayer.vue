@@ -1,14 +1,27 @@
 <template>
     <v-container class="mt-1">
-        <v-alert type="info" title="Советуем начинать смотреть по порядку" closable variant="tonal"
-            v-if="franchises.length !== 0">
-            <div v-for="(items, i) in franchises" :key="i">
-                <div v-for="(item, j) in items.releases" :key="j">
-                    №{{ j + 1 }} <router-link :to="{ name: 'Serial', params: { id: item.id } }">{{
-                        item.names.ru }}</router-link>
-                </div>
-            </div>
-        </v-alert>
+        <v-menu open-on-hover>
+            <template v-slot:activator="{ props }">
+
+                <v-btn v-bind="props"
+                    class="text-caption text-sm-subtitle-2 text-md-subtitle-2 text-lg-body-1 text-xl-body-1 text-justify overflow-auto ml-1 mr-2">
+                    <v-icon color="info" icon="mdi-information" class="mr-2"></v-icon>
+
+                    Советуем начинать смотреть по порядку
+                </v-btn>
+            </template>
+
+            <v-list>
+
+                <v-list-item v-for="(items, i) in franchises" :key="i">
+                    <v-list-item v-for="(item, j) in items.releases" :key="j">
+                        №{{ j + 1 }} <router-link :to="{ name: 'Serial', params: { id: item.id } }">{{
+                            item.names.ru }}</router-link>
+                    </v-list-item>
+                </v-list-item>
+            </v-list>
+        </v-menu>
+
 
         <div class="video-container mt-4" align="center">
             <iframe :src="`https://www.anilibria.tv/public/iframe.php?id=${id}`" type="text/html" frameborder="0"
@@ -22,6 +35,10 @@
 import { defineComponent, PropType } from "vue";
 import { Franchise } from "../typification/List";
 export default defineComponent({
+
+    data: () => ({
+
+    }),
     props: {
         id: {
             type: Number,

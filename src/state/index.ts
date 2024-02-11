@@ -12,6 +12,7 @@ export const store = createStore({
       list: false,
       search: false,
       info: false,
+      newAnimeList: false,
     },
 
     error: {
@@ -52,6 +53,9 @@ export const store = createStore({
     setNewAnimeList(state, list) {
       state.newlist = list;
     },
+    setRequestNewAnimeList(state, boolean) {
+      state.request.newAnimeList = boolean;
+    },
   },
   actions: {
     getList({ commit }, list) {
@@ -74,6 +78,9 @@ export const store = createStore({
     },
     getRequestSearch({ commit }, request: boolean) {
       commit("setRequestSearch", request);
+    },
+    getRequestNewAnimeList({ commit }, boolean) {
+      commit("setRequestNewAnimeList", boolean);
     },
     changeBackgroundColor({ commit }, newColor) {
       commit("changeBackgroundColor", newColor);
@@ -115,6 +122,9 @@ export const store = createStore({
     },
     showError(state) {
       return state.error.error404;
+    },
+    showRequestNewAnimeList(state) {
+      return state.request.newAnimeList;
     },
   },
 });

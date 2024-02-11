@@ -30,7 +30,7 @@
         <v-divider class="mx-4 mb-1"></v-divider>
         <v-card-actions>
             <v-btn color="deep-purple-lighten-2" variant="text">
-                <router-link :to="{ name: 'Serial', params: { id: cardData.id } }">{{ cardData.id }}</router-link>
+                <router-link :to="{ name: 'Serial', params: { id: cardData.id } }">Смотреть</router-link>
             </v-btn>
         </v-card-actions>
     </v-card>
