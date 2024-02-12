@@ -1,5 +1,5 @@
 <template>
-    <v-img lazy-src="https://i.pinimg.com/originals/3d/95/20/3d9520c2498c25eac5b6407de070cb6f.gif" width="75dvw"
+    <v-img lazy-src="https://i.pinimg.com/originals/3d/95/20/3d9520c2498c25eac5b6407de070cb6f.gif" width="100dvw"
         height="42dvh" alt="gif_header" cover fluid>
         <div class="box d-flex align-center">
             <v-main class="d-flex align-start justify-center text-center mb-7">
@@ -13,7 +13,6 @@
                         here!</div>
                 </v-card>
             </v-main>
-
         </div>
     </v-img>
 </template>

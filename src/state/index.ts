@@ -15,6 +15,11 @@ export const store = createStore({
       newAnimeList: false,
     },
 
+    filter: {
+      Genres: [],
+      Year: [],
+    },
+
     error: {
       error404: false,
       error500: false,
@@ -56,6 +61,12 @@ export const store = createStore({
     setRequestNewAnimeList(state, boolean) {
       state.request.newAnimeList = boolean;
     },
+    getGenres(state, value) {
+      state.filter.Genres = value;
+    },
+    getYears(state, value) {
+      state.filter.Year = value;
+    },
   },
   actions: {
     getList({ commit }, list) {
@@ -91,6 +102,12 @@ export const store = createStore({
     checkError500({ commit }, boolean) {
       commit("setError500", boolean);
     },
+    getYears({ commit }, value) {
+      commit("getYears", value);
+    },
+    getGenres({ commit }, value) {
+      commit("getGenres", value);
+    },
   },
   getters: {
     backgroundColor(state) {
@@ -125,6 +142,9 @@ export const store = createStore({
     },
     showRequestNewAnimeList(state) {
       return state.request.newAnimeList;
+    },
+    getParamsforFilter(state) {
+      return state.filter;
     },
   },
 });

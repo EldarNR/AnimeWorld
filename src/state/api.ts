@@ -38,6 +38,9 @@ export const api = createStore({
     setNewListAnimeParams(state, params) {
       state.new.params = params;
     },
+    setNewListAnimeMethod(state, method) {
+      state.new.method = method;
+    },
   },
   actions: {
     async fetchList({ state }) {
@@ -88,12 +91,13 @@ export const api = createStore({
         const response = await axios.get(
           base + state.info.method + state.info.params
         );
+        store.dispatch("checkError", false);
         if (response.status === 200) {
-          store.dispatch("checkError", false);
           store.dispatch("getInfo", response.data[0]);
         }
       } catch (error: any) {
         console.error("Error fetching data:", error.response.status);
+        store.dispatch("checkError404", true);
 
         if (error.response.status === 404) {
           console.log("Страница не найдена (ошибка 404)");
@@ -105,6 +109,22 @@ export const api = createStore({
         }
       } finally {
         store.dispatch("getRequestInfo", true);
+        console.log("Request Received");
+      }
+    },
+    async fetchForFilter() {
+      try {
+        const responseGenres = await axios.get(
+          "https://api.anilibria.tv/v3/genres"
+        );
+        const responseYear = await axios.get(
+          "https://api.anilibria.tv/v3/years"
+        );
+        store.dispatch("getGenres", responseGenres.data);
+        store.dispatch("getYears", responseYear.data);
+      } catch (error: any) {
+        console.error("Error fetching data:", error);
+      } finally {
         console.log("Request Received");
       }
     },
@@ -120,6 +140,12 @@ export const api = createStore({
     },
     setNewListAnimeParams({ commit }, params) {
       commit("setNewListAnimeParams", params);
+    },
+    setNewListAnimeMethod({ commit }, method) {
+      commit("setNewListAnimeMethod", method);
+    },
+    setNewListAnimeParam({ commit }, param) {
+      commit("setNewListAnimeParam", param);
     },
   },
 });

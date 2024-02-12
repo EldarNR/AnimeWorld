@@ -4,10 +4,10 @@
 
         <Filter />
 
-        <v-row dense class="mt-2" justify="center">
+        <v-row dense justify="center">
             <v-col v-for="(item, innerIndex) in getNewAnime.list" :key="innerIndex" xs="12" sm="12" md="6" lg="4" xl="3"
                 class="d-flex align-center justify-center">
-                <Card :card-data="item" class="mt-1" />
+                <Card :card-data="item" />
             </v-col>
         </v-row>
 

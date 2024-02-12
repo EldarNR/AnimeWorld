@@ -21,7 +21,7 @@ export default {
         const store = useStore();
         const getRequestData = computed(() => store.getters.showRequestList);
         api.dispatch('fetchList');
-        
+
         return { getRequestData };
     }
 }

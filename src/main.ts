@@ -40,6 +40,7 @@ const router = createRouter({
         isErrorPage: true,
       },
     },
+    { path: "/content/:catchAll(.*)", component: Error404Vue },
   ],
 });
 

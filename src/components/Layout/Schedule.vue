@@ -28,7 +28,6 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const listAnime = computed(() => store.getters.getListAnime.data);
-        // 
 
         return { listAnime };
 
