@@ -1,12 +1,16 @@
 <template>
-    <v-dialog width="500" v-model="isActive">
+    <v-dialog width="90dvw" v-model="isActive">
         <template v-slot:activator="{ props }">
             <v-btn v-bind="props" class="text-center">
                 <v-icon size="30">mdi-magnify</v-icon>
             </v-btn>
         </template>
         <template v-slot:default>
+            <v-btn class="float-right">
+                <v-icon>mdi-close-box-outline</v-icon>
+            </v-btn>
             <v-card subtitle="Введите название:" max-height="500px">
+
                 <div class="mr-2 ml-2">
                     <v-text-field label="Поиск" v-model="inputValue" :rules="rules" hide-details="auto"
                         class="density-compact"></v-text-field>
@@ -17,6 +21,12 @@
                     <v-spacer></v-spacer>
                     <v-btn text="Close Dialog" @click="close"></v-btn>
                 </v-card-actions>
+
+
+                <Filter class="mr-3 ml-3 mt-2" />
+
+
+
 
                 <v-divider></v-divider>
 
@@ -48,10 +58,18 @@ import { api } from '../../state/api';
 import LoadingVue from '../UIElements/Loading.vue';
 import SMCard from '../UIElements/SMCard.vue';
 import Empty from '../UIElements/Empty.vue';
+import Filter from '../UIElements/Filter.vue';
+
 export default {
-    components: { LoadingVue, SMCard, Empty },
+    components: { LoadingVue, SMCard, Empty, Filter },
     data() {
         return {
+            trip: {
+                name: '',
+                location: null,
+                start: null,
+                end: null,
+            },
             inputValue: '' as string, // Явно указываем тип строка
             isActive: false, // Добавляем свойство для отслеживания состояния диалога
             rules: [
@@ -89,6 +107,7 @@ export default {
         },
         resetInput() {
             this.inputValue = '';
+            api.dispatch('setSearchParams', this.inputValue);
         },
     },
 };

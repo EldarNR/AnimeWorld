@@ -20,7 +20,7 @@ export default defineConfig({
     ViteFonts({
       google: {
         families: [{
-          name: 'Roboto',
+          name: 'Montserrat',
           styles: 'wght@100;300;400;500;700;900',
         }],
       },

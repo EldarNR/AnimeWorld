@@ -45,7 +45,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // Если маршрут требует данных Vuex
   if (to.meta.requiresData) {
     // Загрузите данные Vuex для маршрута, используя идентификатор контента
     api

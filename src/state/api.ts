@@ -14,6 +14,13 @@ export const api = createStore({
     search: {
       method: "search?search=",
       params: "",
+      filter: {
+        method: "",
+        params: {
+          genres: "",
+          year: "",
+        },
+      },
     },
     info: {
       method: "list?id_list=",
@@ -40,6 +47,12 @@ export const api = createStore({
     },
     setNewListAnimeMethod(state, method) {
       state.new.method = method;
+    },
+    setFilterforSearch(state, param) {
+      state.search.filter.params.genres = param;
+    },
+    setFilterforSearchYear(state, param) {
+      state.search.filter.params.year = param;
     },
   },
   actions: {
@@ -74,7 +87,13 @@ export const api = createStore({
     async fetchSearchAnime({ state }) {
       try {
         const response = await axios.get(
-          base + state.search.method + state.search.params
+          base +
+            state.search.method +
+            state.search.params +
+            "&genres=" +
+            state.search.filter.params.genres +
+            "&year=" +
+            state.search.filter.params.year
         );
         store.dispatch("getSearchList", response);
       } catch (error) {
@@ -147,6 +166,12 @@ export const api = createStore({
     setNewListAnimeParam({ commit }, param) {
       commit("setNewListAnimeParam", param);
     },
+    setFilterforSearch({ commit }, param) {
+      commit("setFilterforSearch", param);
+    },
+    setFilterforSearchYear({ commit }, param) {
+      commit("setFilterforSearchYear", param);
+    },
   },
 });
 
@@ -160,7 +185,12 @@ api.watch(
 );
 
 api.watch(
-  (state) => [state.search.method, state.search.params],
+  (state) => [
+    state.search.method,
+    state.search.params,
+    state.search.filter.params.genres,
+    state.search.filter.params.year,
+  ],
   () => {
     api.dispatch("fetchSearchAnime");
   },
