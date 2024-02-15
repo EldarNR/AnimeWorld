@@ -1,7 +1,7 @@
 <template>
     <section id="table" class="mx-auto ma-2">
         <h1>Torrent</h1>
-        <v-table max-height="400px" class="text-center" elevation="16">
+        <v-table max-height="400px" class="text-center" :class="getThem" elevation="16">
             <thead>
                 <tr>
                     <th class="text-center">
@@ -53,8 +53,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 import { Torrents } from "../typification/Torrent";
+import { useStore } from 'vuex';
 
 
 export default {
@@ -64,6 +65,16 @@ export default {
             required: true,
 
         },
+
+
+    },
+    setup() {
+
+        const store = useStore();
+        const getThem = computed(() => store.getters.backgroundColor);
+
+        return { getThem }
+
     }
 }
 </script>

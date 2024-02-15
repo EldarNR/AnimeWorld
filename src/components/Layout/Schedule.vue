@@ -1,19 +1,21 @@
 <template>
-    <div>
+    <v-section>
         <span class="text-title">Anime World Presents</span>
         <div class="d-flex align-center" align="center">
             <v-chip-group>
                 <v-chip v-for="day in days" :key="day.id" v-on:click="getDays(day.id)">{{ day.day }}</v-chip>
             </v-chip-group>
         </div>
-        <v-row dense v-for="(anime, index) in listAnime" :key="index">
-            <v-col v-for="(item, innerIndex) in anime.list" :key="innerIndex" xs="12" sm="12" md="6" lg="4" xl="2"
-                class="d-flex align-center justify-center">
 
-                <Card :cardData="item" :cardDay="anime.day" :key="innerIndex" />
-            </v-col>
-        </v-row>
-    </div>
+        <v-carousel dense v-for="(anime, index) in listAnime" :key="index" class="rounded-xl" hide-delimiters>
+            <v-carousel-item v-for="(item, innerIndex) in anime.list" :key="innerIndex">
+                <router-link :to="{ name: 'Serial', params: { id: item.id } }">
+                    <InfoBlock :posts="item" :cardDay="anime.day" :key="innerIndex" style=" cursor: pointer" />
+                </router-link>
+            </v-carousel-item>
+        </v-carousel>
+        <v-divider :thickness="3" class="mt-4"></v-divider>
+    </v-section>
 </template>
 
 <script lang="ts">
@@ -21,9 +23,10 @@ import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import { api } from '../../state/api';
 import Card from '../UIElements/Card.vue';
+import InfoBlock from '../UIElements/InfoBlock.vue';
 
 export default defineComponent({
-    components: { Card },
+    components: { Card, InfoBlock },
 
     setup() {
         const store = useStore();

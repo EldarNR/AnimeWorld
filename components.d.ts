@@ -7,7 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BlockComment: typeof import('./src/components/UIElements/BlockComment.vue')['default']
     Card: typeof import('./src/components/UIElements/Card.vue')['default']
+    Comment: typeof import('./src/components/UIElements/Comment.vue')['default']
+    Comments: typeof import('./src/components/UIElements/Comments.vue')['default']
     Content: typeof import('./src/components/Content.vue')['default']
     DownloadTor: typeof import('./src/components/UIElements/DownloadTor.vue')['default']
     Empty: typeof import('./src/components/UIElements/Empty.vue')['default']

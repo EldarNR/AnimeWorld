@@ -18,7 +18,7 @@
                     <v-divider :thickness="1" class="mr-2"></v-divider>
 
                     <v-expansion-panels variant="accordion" class="mt-2">
-                        <v-expansion-panel title="Описание"
+                        <v-expansion-panel title="Описание" :class="getThem"
                             class="text-caption text-sm-subtitle-2 text-md-subtitle-2 text-lg-body-1 text-xl-body-1 text-justify overflow-auto ml-1 mr-2"
                             :text="posts.description">
                         </v-expansion-panel>
@@ -46,23 +46,15 @@
 
 
 
-                <v-card-actions>
-                    <v-list-item class="w-100">
-                        <template v-slot:prepend>
-                            <v-img color="grey-darken-3"
-                                image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light" />
-                        </template>
 
-
-                    </v-list-item>
-                </v-card-actions>
             </v-col>
         </v-row>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
+import { useStore } from 'vuex';
 import { ForCard } from '../typification/List';
 
 export default defineComponent({
@@ -72,5 +64,11 @@ export default defineComponent({
             required: true,
         },
     },
+    setup() {
+        const store = useStore();
+        const getThem = computed(() => store.getters.backgroundColor);
+
+        return { getThem }
+    }
 });
 </script>

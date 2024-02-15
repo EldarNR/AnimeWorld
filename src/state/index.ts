@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { ISheduleArray } from "@/components/typification/List";
+import { Comment } from "@/components/typification/Comment";
 import { stat } from "fs";
 
 export const store = createStore({
@@ -14,6 +14,8 @@ export const store = createStore({
       info: false,
       newAnimeList: false,
     },
+
+    comment: [] as Comment[],
 
     filter: {
       Genres: [],
@@ -67,6 +69,9 @@ export const store = createStore({
     getYears(state, value) {
       state.filter.Year = value;
     },
+    addComment(state, comment) {
+      state.comment.push(comment);
+    },
   },
   actions: {
     getList({ commit }, list) {
@@ -108,6 +113,9 @@ export const store = createStore({
     getGenres({ commit }, value) {
       commit("getGenres", value);
     },
+    addComment({ commit }, comment: object) {
+      commit("addComment", comment);
+    },
   },
   getters: {
     backgroundColor(state) {
@@ -145,6 +153,9 @@ export const store = createStore({
     },
     getParamsforFilter(state) {
       return state.filter;
+    },
+    getComments(state) {
+      return state.comment;
     },
   },
 });

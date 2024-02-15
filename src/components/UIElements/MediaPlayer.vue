@@ -1,9 +1,9 @@
 <template>
     <v-container class="mt-1">
-        <v-menu open-on-hover>
+        <v-menu open-on-hover v-if="franchises.length > 0">
             <template v-slot:activator="{ props }">
 
-                <v-btn v-bind="props"
+                <v-btn v-bind="props" :class="getThem"
                     class="text-caption text-sm-subtitle-2 text-md-subtitle-2 text-lg-body-1 text-xl-body-1 text-justify overflow-auto ml-1 mr-2">
                     <v-icon color="info" icon="mdi-information" class="mr-2"></v-icon>
 
@@ -11,7 +11,7 @@
                 </v-btn>
             </template>
 
-            <v-list>
+            <v-list :class="getThem">
 
                 <v-list-item v-for="(items, i) in franchises" :key="i">
                     <v-list-item v-for="(item, j) in items.releases" :key="j">
@@ -32,7 +32,8 @@
 
   
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType } from "vue";
+import { useStore } from "vuex";
 import { Franchise } from "../typification/List";
 export default defineComponent({
 
@@ -49,6 +50,12 @@ export default defineComponent({
             required: true,
         }
     },
+    setup() {
+        const store = useStore();
+        const getThem =  computed(() => store.getters.backgroundColor);
+
+        return { getThem }
+    }
 });
 </script>
 <style scoped>

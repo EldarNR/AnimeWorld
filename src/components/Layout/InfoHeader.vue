@@ -5,6 +5,8 @@
         </v-card>
         <MediaPlayer :id="post.id" :franchises="post.franchises" />
         <DownloadTor :torrent="post.torrents" />
+        <Comment :id="post.id" />
+        <Comments :id="post.id" />
     </v-container>
 </template>
   
@@ -15,6 +17,8 @@ import MediaPlayer from '../UIElements/MediaPlayer.vue';
 import InfoBlock from '../UIElements/InfoBlock.vue';
 import DownloadTor from '../UIElements/DownloadTor.vue';
 import { ForCard } from '../typification/List';
+import Comment from '../UIElements/BlockComment.vue';
+import Comments from '../UIElements/Comments.vue';
 
 
 export default defineComponent({
@@ -26,7 +30,7 @@ export default defineComponent({
     },
 
 
-    components: { InfoBlock, MediaPlayer, DownloadTor },
+    components: { InfoBlock, MediaPlayer, DownloadTor, Comment, Comments },
     watch: {
         post(newVal) {
             console.log('Received props:', newVal);

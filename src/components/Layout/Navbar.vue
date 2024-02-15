@@ -1,8 +1,8 @@
 <template>
     <header>
         <!-- Desktop version -->
-        <v-app-bar app :elevation="8">
-            <v-app-bar-nav-icon @click="drawer = !drawer" class="d-sm-none"></v-app-bar-nav-icon>
+        <v-app-bar app :elevation="8" :class="getThem">
+            <v-app-bar-nav-icon @click="drawer = !drawer" class="d-md-none"></v-app-bar-nav-icon>
             <v-toolbar-title>
                 <router-link to="/">AnimeWorld</router-link>
             </v-toolbar-title>
@@ -26,8 +26,8 @@
 
 
         <!-- Mobile version -->
-        <div class="d-flex d-sm-none">
-            <v-navigation-drawer app v-model="drawer" temporary>
+        <div class="d-flex d-none d-sm-flex d-md-flex">
+            <v-navigation-drawer app v-model="drawer" :class="getThem" temporary>
                 <v-list class="text-center">
                     <v-list-item value="home">
                         <router-link to="/">
@@ -57,8 +57,9 @@
 </template>
   
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import Switch from "../UIElements/Switch.vue";
+import { useStore } from 'vuex';
 import modalSearch from './modalSearch.vue';
 
 export default defineComponent({
@@ -66,8 +67,11 @@ export default defineComponent({
         Switch, modalSearch
     },
     setup() {
+        const store = useStore();
+        const getThem = computed(() => store.getters.backgroundColor);
+
         const drawer = ref(false);
-        return { drawer };
+        return { drawer, getThem };
     }
 });
 </script>
