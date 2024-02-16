@@ -4,6 +4,7 @@ import { stat } from "fs";
 
 export const store = createStore({
   state: {
+    id: undefined,
     list: {},
     newlist: {},
     search: {},
@@ -13,7 +14,10 @@ export const store = createStore({
       search: false,
       info: false,
       newAnimeList: false,
+      randomAnime: false,
     },
+
+    randomAnime: {},
 
     comment: [] as Comment[],
 
@@ -72,6 +76,15 @@ export const store = createStore({
     addComment(state, comment) {
       state.comment.push(comment);
     },
+    getIdPAGE(state, id) {
+      state.id = id;
+    },
+    randomAnime(state, data) {
+      state.randomAnime = data;
+    },
+    RequestRandom(state, request) {
+      state.request.randomAnime = request;
+    },
   },
   actions: {
     getList({ commit }, list) {
@@ -113,8 +126,17 @@ export const store = createStore({
     getGenres({ commit }, value) {
       commit("getGenres", value);
     },
-    addComment({ commit }, comment: object) {
+    addComment({ commit }, comment) {
       commit("addComment", comment);
+    },
+    getIdPage({ commit }, id) {
+      commit("getIdPAGE", id);
+    },
+    randomAnime({ commit }, data) {
+      commit("randomAnime", data);
+    },
+    getRequestRandom({ commit }, request) {
+      commit("RequestRandom", request);
     },
   },
   getters: {
@@ -156,6 +178,15 @@ export const store = createStore({
     },
     getComments(state) {
       return state.comment;
+    },
+    showIdPage(state) {
+      return state.id;
+    },
+    getRandomAnime(state) {
+      return state.randomAnime;
+    },
+    getRequestRandom(state) {
+      return state.request.randomAnime;
     },
   },
 });

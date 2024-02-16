@@ -1,15 +1,12 @@
 <template>
     <v-dialog width="90dvw" v-model="isActive">
         <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" class="text-center">
+            <v-btn v-bind="props" class="text-center" :class="getBackgroundColor">
                 <v-icon size="30">mdi-magnify</v-icon>
             </v-btn>
         </template>
         <template v-slot:default>
-            <v-btn class="float-right">
-                <v-icon>mdi-close-box-outline</v-icon>
-            </v-btn>
-            <v-card subtitle="Введите название:" max-height="500px">
+            <v-card subtitle="Введите название:" max-height="500px" :class="getBackgroundColor">
 
                 <div class="mr-2 ml-2">
                     <v-text-field label="Поиск" v-model="inputValue" :rules="rules" hide-details="auto"
@@ -24,16 +21,12 @@
 
 
                 <Filter class="mr-3 ml-3 mt-2" />
-
-
-
-
                 <v-divider></v-divider>
 
                 <div v-if="getRequestData">
                     <div v-if="getSearchList && getSearchList.data.list && getSearchList.data.list.length !== 0">
                         <div v-for="(items, i) in getSearchList.data.list" :key="i">
-                            <SMCard :post="items" class="ma-1" @click="close" />
+                            <SMCard :post="items" :class="getBackgroundColor" class="ma-1" @click="close" />
                         </div>
                     </div>
                     <div v-else class="text-center mt-5 mb-5">
@@ -81,11 +74,13 @@ export default {
         };
     },
     setup() {
+        api.dispatch('fetchForFilter');
         const store = useStore();
         const getRequestData = computed(() => store.getters.showRequestSearch);
         const getSearchList = computed(() => store.getters.getSearchList)
-        console.log(getRequestData)
-        return { getRequestData, getSearchList };
+        const getBackgroundColor = computed(() => store.getters.backgroundColor)
+
+        return { getRequestData, getSearchList, getBackgroundColor };
     },
     watch: {
         inputValue(value: string) {

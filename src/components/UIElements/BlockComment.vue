@@ -1,11 +1,14 @@
 <template>
-    <section id="comment_input">
-        <span>Comment</span>
-        <v-text-field v-model="post.name" label="Your name"></v-text-field>
-        <v-textarea counter v-model="post.text" :rules="rules" append-icon="mdi-send" variant="filled"
-            clear-icon="mdi-close-circle" clearable label="Message" type="text" @click:append="sendMessage"
-            @click:clear="clearMessage"></v-textarea>
-    </section>
+    <v-lazy :min-height="200" :options="{ 'threshold': 0.5 }" transition="fade-transition">
+
+        <section id="comment_input">
+            <span>Comment</span>
+            <v-text-field v-model="post.name" label="Your name"></v-text-field>
+            <v-textarea counter v-model="post.text" :rules="rules" append-icon="mdi-send" variant="filled"
+                clear-icon="mdi-close-circle" clearable label="Message" type="text" @click:append="sendMessage"
+                @click:clear="clearMessage"></v-textarea>
+        </section>
+    </v-lazy>
 </template>
   
 <script lang="ts">
@@ -35,7 +38,7 @@ export default defineComponent({
 
     methods: {
         sendMessage() {
-            store.dispatch("addComment", { id: this.id, user: this.post.name, text: this.post.text });
+            store.dispatch("addComment", { id: this.id, comment: { user: this.post.name, text: this.post.text } });
         },
         clearMessage() {
             this.post.text = '';

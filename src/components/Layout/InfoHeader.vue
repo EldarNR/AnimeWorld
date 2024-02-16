@@ -1,8 +1,10 @@
 <template>
     <v-container>
+
         <v-card class="mx-auto" theme="dark" variant="outlined">
             <InfoBlock :posts="post" />
         </v-card>
+
         <MediaPlayer :id="post.id" :franchises="post.franchises" />
         <DownloadTor :torrent="post.torrents" />
         <Comment :id="post.id" />
@@ -11,7 +13,7 @@
 </template>
   
 <script lang="ts">
-import { computed, defineComponent, PropType, watch } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import MediaPlayer from '../UIElements/MediaPlayer.vue';
 import InfoBlock from '../UIElements/InfoBlock.vue';
@@ -19,6 +21,7 @@ import DownloadTor from '../UIElements/DownloadTor.vue';
 import { ForCard } from '../typification/List';
 import Comment from '../UIElements/BlockComment.vue';
 import Comments from '../UIElements/Comments.vue';
+import { store } from '../../state';
 
 
 export default defineComponent({
@@ -32,9 +35,9 @@ export default defineComponent({
 
     components: { InfoBlock, MediaPlayer, DownloadTor, Comment, Comments },
     watch: {
-        post(newVal) {
-            console.log('Received props:', newVal);
-
+        post({ id }) {
+            this.$router.push({ name: "Serial", params: { id } });
+            store.dispatch("getIdPage", { id });
         }
     },
 

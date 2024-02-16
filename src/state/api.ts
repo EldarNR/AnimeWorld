@@ -29,7 +29,7 @@ export const api = createStore({
     new: {
       method:
         "updates?description_type=plain&playlist_type=array&items_per_page=10&page=",
-      params: "2",
+      params: "1",
     },
   },
   mutations: {
@@ -144,6 +144,18 @@ export const api = createStore({
       } catch (error: any) {
         console.error("Error fetching data:", error);
       } finally {
+        console.log("Request Received");
+      }
+    },
+
+    async fetchRandom() {
+      try {
+        const responseGenres = await axios.get(base + "random");
+        store.dispatch("randomAnime", responseGenres.data);
+      } catch (error: any) {
+        console.error("Error fetching data:", error);
+      } finally {
+        store.dispatch("getRequestRandom", true);
         console.log("Request Received");
       }
     },

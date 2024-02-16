@@ -24,8 +24,9 @@
 
 
         <div class="video-container mt-4" align="center">
-            <iframe :src="`https://www.anilibria.tv/public/iframe.php?id=${id}`" type="text/html" frameborder="0"
-                allowfullscreen></iframe>
+
+            <iframe :src="`https://www.anilibria.tv/public/iframe.php?id=${id}`" type="text/html" width="auto" height="auto"
+                frameborder="0" allowfullscreen></iframe>
         </div>
     </v-container>
 </template>
@@ -36,10 +37,6 @@ import { computed, defineComponent, PropType } from "vue";
 import { useStore } from "vuex";
 import { Franchise } from "../typification/List";
 export default defineComponent({
-
-    data: () => ({
-
-    }),
     props: {
         id: {
             type: Number,
@@ -52,7 +49,7 @@ export default defineComponent({
     },
     setup() {
         const store = useStore();
-        const getThem =  computed(() => store.getters.backgroundColor);
+        const getThem = computed(() => store.getters.backgroundColor);
 
         return { getThem }
     }
@@ -71,7 +68,7 @@ export default defineComponent({
     /* xs */
     .video-container iframe {
         width: 100%;
-        height: 50dvh;
+        height: 60dvh;
     }
 }
 

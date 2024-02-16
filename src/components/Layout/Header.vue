@@ -1,23 +1,46 @@
 <template>
-    <v-img lazy-src="https://i.pinimg.com/originals/3d/95/20/3d9520c2498c25eac5b6407de070cb6f.gif" width="100dvw"
-        height="42dvh" alt="gif_header" cover fluid>
-        <div class="box d-flex align-center">
+    <v-container fluid>
+        <v-row class="box d-flex align-center justify-space-evenly">
 
-            <v-card variant="outlined" class="mb-5 pa-4" color="deep-purple-lighten-3" link elevation="18" hover>
-                <h2 class="text-h6 text-sm-h5 text-md-h4 text-lg-h2 text-xl-h1 ">Anime
+            <v-col xs="12" sm="12" variant="outlined" class="mb-5 pa-4 text-center" color="deep-purple-lighten-3"
+                elevation="18">
+                <h2 class="text-h6 text-sm-h3 text-md-h4 text-lg-h2 text-xl-h1 ">Anime
                     World</h2>
                 <div class="ml-3 text-sm-caption text-md-body-1 text-lg-h5 text-xl-h3 mr-3 mb-3">Your
                     favorite anime
                     is
                     here!</div>
-            </v-card>
+            </v-col>
 
-        </div>
-    </v-img>
+            <v-col xs="12" sm="12" class="mt-1 mb-1 text-center">
+                Рекомендую посмотреть
+
+                <CardRandom :anim="anim" :class="getBackgroundColor" v-if="request" />
+
+                <v-skeleton-loader :class="getBackgroundColor" :elevation="8" class="mx-auto border" width="300"
+                    type="image, article" v-else></v-skeleton-loader>
+            </v-col>
+
+        </v-row>
+    </v-container>
 </template>
   
 <script lang="ts">
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
+import CardRandom from '../UIElements/CardRandom.vue';
 export default {
+
+    components: { CardRandom },
+    setup() {
+        const store = useStore();
+        const anim = computed(() => store.getters.getRandomAnime);
+        const request = computed(() => store.getters.getRequestRandom);
+        const getBackgroundColor = computed(() => store.getters.backgroundColor)
+
+        return { anim, request, getBackgroundColor };
+    },
 
 }
 </script>
@@ -28,5 +51,12 @@ export default {
     background-color: rgba(33, 33, 33, 0.7);
     /* Используйте rgba для установки прозрачного цвета */
 }
+
+.custom-truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+}
 </style>
-  

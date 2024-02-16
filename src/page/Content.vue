@@ -28,8 +28,11 @@ export default {
 
         // Не сохраняйте локальную переменную, используйте геттер прямо в шаблоне
         api.dispatch('fetchNewAnime');
-        api.dispatch('fetchForFilter');
+        api.dispatch("fetchRandom");
+
         return { showListNew, showRequestListNewAnimeList };
     }
 }
 </script>
+
+
