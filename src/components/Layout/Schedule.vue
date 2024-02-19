@@ -1,5 +1,5 @@
 <template>
-    <v-section>
+    <section id="schedule">
         <span class="text-title">Anime World Presents</span>
         <div class="d-flex align-center" align="center">
             <v-chip-group>
@@ -15,7 +15,7 @@
             </v-carousel-item>
         </v-carousel>
         <v-divider :thickness="3" class="mt-4"></v-divider>
-    </v-section>
+    </section>
 </template>
 
 <script lang="ts">

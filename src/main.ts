@@ -9,6 +9,7 @@ import { store } from "../src/state/index";
 import SerialVue from "./page/Serial.vue";
 import { api } from "./state/api";
 import Error404Vue from "./page/Error/Error404.vue";
+import LoginVue from "./page/Login.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -33,6 +34,11 @@ const router = createRouter({
       props: true,
     },
     {
+      name: "Login",
+      path: "/login",
+      component: LoginVue,
+    },
+    {
       name: "Error404",
       path: "/:catchAll(.*)",
       component: Error404Vue,
@@ -40,6 +46,7 @@ const router = createRouter({
         isErrorPage: true,
       },
     },
+    
     { path: "/content/:catchAll(.*)", component: Error404Vue },
   ],
 });

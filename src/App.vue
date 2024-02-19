@@ -1,6 +1,6 @@
 <template>
-  <v-app :class="backgroundColor">
-    <Navbar :class="backgroundColor" />
+  <v-app>
+    <Navbar />
     <v-main :class="backgroundColor" class="d-flex justify-space-around">
       <router-view />
     </v-main>
@@ -24,8 +24,6 @@ export default defineComponent({
       return store.state.list;
     });
 
-
-
     return {
       backgroundColor,
       list,
@@ -36,11 +34,6 @@ export default defineComponent({
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-}
-
 a {
   text-decoration: none;
   color: inherit;

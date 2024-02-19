@@ -5,6 +5,7 @@ import { stat } from "fs";
 export const store = createStore({
   state: {
     id: undefined,
+    account: false,
     list: {},
     newlist: {},
     search: {},
@@ -85,6 +86,9 @@ export const store = createStore({
     RequestRandom(state, request) {
       state.request.randomAnime = request;
     },
+    setAccount(state, boolean) {
+      state.account = boolean;
+    },
   },
   actions: {
     getList({ commit }, list) {
@@ -138,8 +142,14 @@ export const store = createStore({
     getRequestRandom({ commit }, request) {
       commit("RequestRandom", request);
     },
+    getAccountInfo({ commit }, boolean) {
+      commit("setAccount", boolean);
+    },
   },
   getters: {
+    getAccount(state) {
+      return state.account;
+    },
     backgroundColor(state) {
       return state.backgroundColor ? "bg-grey-darken-4" : "bg-grey-lighten-5";
     },

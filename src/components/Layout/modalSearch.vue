@@ -1,7 +1,7 @@
 <template>
     <v-dialog width="90dvw" v-model="isActive">
         <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" class="text-center" :class="getBackgroundColor">
+            <v-btn v-bind="props" class="text-center">
                 <v-icon size="30">mdi-magnify</v-icon>
             </v-btn>
         </template>
@@ -12,7 +12,7 @@
                     <v-text-field label="Поиск" v-model="inputValue" :rules="rules" hide-details="auto"
                         class="density-compact"></v-text-field>
                 </div>
-                <v-card-actions>
+                <v-card-actions class="mr-3 ml-3">
                     <v-btn text="Search" color="info" @click="search" variant="flat"></v-btn>
                     <v-btn text="Reset" color="error" clearable @click="resetInput" variant="flat"></v-btn>
                     <v-spacer></v-spacer>
@@ -20,7 +20,7 @@
                 </v-card-actions>
 
 
-                <Filter class="mr-3 ml-3 mt-2" />
+                <Filter class="mr-3 ml-3 mt-2 d-none d-sm-flex" />
                 <v-divider></v-divider>
 
                 <div v-if="getRequestData">
@@ -63,7 +63,7 @@ export default {
                 start: null,
                 end: null,
             },
-            inputValue: '' as string, // Явно указываем тип строка
+            inputValue: '' as string,
             isActive: false, // Добавляем свойство для отслеживания состояния диалога
             rules: [
                 (value: string | number | boolean) => !!value || "Required.",
@@ -98,7 +98,7 @@ export default {
             }
         },
         close() {
-            this.isActive = false; // Закрываем диалоговое окно
+            this.isActive = false;
         },
         resetInput() {
             this.inputValue = '';

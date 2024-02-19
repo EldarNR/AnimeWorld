@@ -32,6 +32,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Schedule: typeof import('./src/components/Layout/Schedule.vue')['default']
+    Search: typeof import('./src/components/UIElements/Search.vue')['default']
     SMCard: typeof import('./src/components/UIElements/SMCard.vue')['default']
     Switch: typeof import('./src/components/UIElements/Switch.vue')['default']
   }
