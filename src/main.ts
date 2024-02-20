@@ -10,6 +10,7 @@ import SerialVue from "./page/Serial.vue";
 import { api } from "./state/api";
 import Error404Vue from "./page/Error/Error404.vue";
 import LoginVue from "./page/Login.vue";
+import FavoriteVue from "./page/Favorite.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -39,6 +40,11 @@ const router = createRouter({
       component: LoginVue,
     },
     {
+      name: "Favorite",
+      path: "/content/favorite",
+      component: FavoriteVue,
+    },
+    {
       name: "Error404",
       path: "/:catchAll(.*)",
       component: Error404Vue,
@@ -46,7 +52,7 @@ const router = createRouter({
         isErrorPage: true,
       },
     },
-    
+
     { path: "/content/:catchAll(.*)", component: Error404Vue },
   ],
 });

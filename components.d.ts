@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Account: typeof import('./src/components/UIElements/Account.vue')['default']
     BlockComment: typeof import('./src/components/UIElements/BlockComment.vue')['default']
     Card: typeof import('./src/components/UIElements/Card.vue')['default']
     CardRandom: typeof import('./src/components/UIElements/CardRandom.vue')['default']

@@ -1,5 +1,5 @@
 <template>
-    <v-switch v-model="switchBoolean" hide-details inset></v-switch>
+    <v-switch v-model="switchBoolean" hide-details inset class="mt-1"></v-switch>
 </template>
   
 <script lang="ts">

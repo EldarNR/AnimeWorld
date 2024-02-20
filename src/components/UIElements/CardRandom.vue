@@ -17,9 +17,13 @@
             </v-chip-group>
         </v-row>
 
-        <v-card-actions>
-            <v-btn color="orange-lighten-2" variant="text" @click="goToInfo(anim.id)">
+        <v-card-actions class="text-subtitle mx-auto  d-flex justify-center">
+            <v-btn color="info" @click="goToInfo(anim.id)">
                 Смотреть
+            </v-btn>
+            <v-btn color="orange-lighten-2"
+                @click="getId({ id: anim.id, title: anim.names.ru, description: anim.description, img: anim.posters.original.url })">
+                В избранное
             </v-btn>
 
         </v-card-actions>
@@ -27,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import { store } from '../../state';
 export default {
 
     props: {
@@ -38,7 +43,12 @@ export default {
     methods: {
         goToInfo(id: number) {
             this.$router.push({ name: "Serial", params: { id } }); // Переходим на маршрут "Serial" с передачей параметра id
+        },
+        getId({ id, title, description, img }: { id: number; title: string; description: string; img: string }) {
+            store.dispatch("getIdAnime", { id, title, description, img });
+            console.log({ id, title, description, img });
         }
+
     }
 }
 </script>

@@ -11,7 +11,7 @@
 
                 <modalSearch />
 
-                <v-btn icon>
+                <v-btn icon v-if="showUser" @click="goToFavourite">
                     <v-icon>mdi-heart</v-icon>
                 </v-btn>
 
@@ -22,11 +22,8 @@
                     <router-link to="/content"><v-list-item title="Content" value="content"></v-list-item></router-link>
                 </v-btn>
                 <Switch class="ml-2" />
-                <div v-if="userInAccount" class="my-auto mx-auto"><v-avatar
-                        image="https://cdn.vuetifyjs.com/images/john.jpg" size="45"></v-avatar>
-                </div>
 
-                <v-btn color="info" class="ml-2" @click="goToLogin" v-else>Login</v-btn>
+                <Account />
 
             </v-toolbar-items>
         </v-app-bar>
@@ -35,7 +32,7 @@
         <!-- Mobile version -->
         <div class="d-flex d-none d-sm-flex d-md-flex ">
             <v-navigation-drawer app v-model="drawer" :class="getThem" temporary>
-                <v-list class="text-center bg-red">
+                <v-list class="text-center ">
                     <v-list-item value="home">
                         <router-link to="/">
                             <v-list-item-title>Home</v-list-item-title>
@@ -49,58 +46,53 @@
                     <v-list-item value="content">
                         <modalSearch :active="true" />
                     </v-list-item>
-
-                    <v-divider></v-divider>
-
-
                 </v-list>
-                <template v-slot:append>
-                    <v-divider class="mb-2"></v-divider>
-                    <v-list-item class="d-flex align-center justify-center mt-5">
-                        <v-list-item-subtitle>Switch</v-list-item-subtitle>
-                        <v-list-item-action>
-                            <Switch class="mx-auto " />
-                        </v-list-item-action>
-                    </v-list-item>
 
-                    <v-list-item class="mx-auto d-flex flex-column align-start justify-center mb-5">
-                        <div v-if="userInAccount" class="d-flex align-center">
-                            <v-avatar image="https://cdn.vuetifyjs.com/images/john.jpg" size="45"></v-avatar>
-                            <span class="text-h6 ml-1">Demo</span>
+                <v-divider class="mb-2"></v-divider>
+                <v-list-item class=" d-flex align-center justify-center mt-5">
+                    <v-list-item-subtitle>Switch</v-list-item-subtitle>
+                    <v-list-item-action>
+                        <Switch class="mx-auto " />
+                    </v-list-item-action>
+                </v-list-item>
 
-                        </div>
-                        <v-btn color="info" class="ml-2" @click="goToLogin" v-else>Login</v-btn>
-                    </v-list-item>
-                </template>
+                <v-list-item class="mx-auto d-flex flex-column align-start justify-center mb-5">
+                    <Account />
+                </v-list-item>
+
             </v-navigation-drawer>
         </div>
     </div>
 </template>
   
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import Switch from "../UIElements/Switch.vue";
 import { useStore } from 'vuex';
 import modalSearch from './modalSearch.vue';
 import Search from '../UIElements/Search.vue';
+import Favorite from '../../page/Favorite.vue';
+import Account from '../UIElements/Account.vue';
 
 export default defineComponent({
     components: {
-        Switch, modalSearch, Search
-    },
-    methods: {
-        goToLogin() {
-            this.$router.push({ name: "Login" });
-        }
+        Switch, modalSearch, Search, Favorite, Account
     },
     setup() {
         const store = useStore();
         const getThem = computed(() => store.getters.backgroundColor);
-        const userInAccount = computed(() => store.getters.getAccount);
+        const showUser = computed(() => store.getters.getAccount);
+
 
         const drawer = ref(false);
-        return { drawer, getThem, userInAccount };
+        return { drawer, getThem, showUser };
+    },
+    methods: {
+        goToFavourite() {
+            this.$router.push({ name: "Favorite" });
+        }
     }
 });
+
 </script>
   

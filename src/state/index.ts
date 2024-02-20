@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
-import { Comment } from "@/components/typification/Comment";
-import { stat } from "fs";
+import { Comment, IdFavorite } from "../components/typification/UIType";
 
 export const store = createStore({
   state: {
@@ -17,6 +16,8 @@ export const store = createStore({
       newAnimeList: false,
       randomAnime: false,
     },
+
+    favoriteList: [] as IdFavorite[],
 
     randomAnime: {},
 
@@ -88,6 +89,10 @@ export const store = createStore({
     },
     setAccount(state, boolean) {
       state.account = boolean;
+      localStorage.setItem("boolean", boolean);
+    },
+    AddAnimeFav(state, data) {
+      state.favoriteList.push(data);
     },
   },
   actions: {
@@ -145,6 +150,9 @@ export const store = createStore({
     getAccountInfo({ commit }, boolean) {
       commit("setAccount", boolean);
     },
+    getIdAnime({ commit }, data) {
+      commit("AddAnimeFav", data);
+    },
   },
   getters: {
     getAccount(state) {
@@ -155,6 +163,9 @@ export const store = createStore({
     },
     backgroundColorBollen(state) {
       return state.backgroundColor;
+    },
+    getFavoriteAnime(state) {
+      return state.favoriteList;
     },
     getListAnime(state) {
       return state.list;
@@ -205,6 +216,9 @@ export const store = createStore({
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme) {
   store.commit("changeBackgroundColor", savedTheme);
+}
 
-  console.log(savedTheme);
+const savedAccount = localStorage.getItem("boolean");
+if (savedAccount) {
+  store.commit("setAccount", savedTheme);
 }

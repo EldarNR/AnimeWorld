@@ -1,5 +1,7 @@
 <template>
-    <v-pagination v-model="model" total-visible="6" :length="getPages - 10" variant="text"></v-pagination>
+    <section id="pagination">
+        <v-pagination v-model="model" :length="getPages - 10" density="comfortable" variant="text"></v-pagination>
+    </section>
 </template>
 
 <script lang="ts">
