@@ -59,17 +59,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresData) {
-    // Загрузите данные Vuex для маршрута, используя идентификатор контента
     api
       .dispatch("setInfoParams", to.params.id)
       .then(() => {
         next();
       })
       .catch((error) => {
-        // Обработка ошибок при загрузке данных
         console.error("Ошибка загрузки данных Vuex:", error);
-        // Можно перенаправить на страницу ошибки или показать сообщение пользователю
-        // Например: next({ path: "/error" });
       });
   } else {
     next();

@@ -1,28 +1,39 @@
 <template>
     <v-container>
-        It's my favourite anime list
-
-        <v-row v-if="getFavoriteList.length !== 0">
-            <v-card v-for="(item, i) in getFavoriteList" class="d-flex align-center" :key="i">
-                {{ i }}
-                <v-col cols="2" class="bg-red" >
-                    <v-img width="200" :src="`https://anilibria.tv${item.img}`" class="float-right" alt="poster" cover></v-img>
+        <span> It's my favourite anime list</span>
+        <v-row v-if="getFavoriteList.length !== 0" class="mt-3">
+            <v-card v-for="(item, i) in getFavoriteList" max-height="320px" elevation="16"
+                class="d-flex align-center mb-3 rounded-xl pa-3 bg-blue-grey-darken-1" :key="i">
+                <v-col cols="2" :xs="3" sm="3" md="3" lg="2">
+                    <v-img width="200" :src="`https://anilibria.tv${item.img}`" class="float-right" alt="poster"
+                        cover></v-img>
                 </v-col>
-                <v-col cols="2" class="mt-3 mb-2">
-
-                    <v-card-item class="float-right" two-line>
-                        <v-card-title>{{ item.title }}</v-card-title>
-
-                        <span class="me-1">{{ item.description }}</span>
-
-
-
+                <v-col cols="5" sm="4" md="7" lg="8" class="mt-3 mb-2  ">
+                    <v-card-item class="float-left">
+                        <span class="text-sm-h5 text-body-2 text-xs-body-2 text-lg-h4 text-justify" align="start">{{
+                            item.title }}</span>
+                        <span
+                            class="me-1 text-caption d-none d-md-flex  text-lg-body-1 text-md-body-2 text-xl-subtitle text-justify">{{
+                                item.description
+                            }}</span>
                     </v-card-item>
                 </v-col>
+                <v-col cols="2">
+                    <button @click="deleatId(item.id)" class="noselect"><span class="text">Delete</span><span
+                            class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z">
+                                </path>
+                            </svg></span></button>
+
+                    <br />
+                    <button @click="gotoWatch(item.id)" class="buttonTogo"><span class="text">Watch</span><span
+                            class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <title>play</title>
+                                <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                            </svg></span></button>
+                </v-col>
             </v-card>
-
-
-
         </v-row>
         <div v-else>
 
@@ -33,14 +44,114 @@
 
 <script lang="ts">
 import Vue, { computed } from 'vue'
+import { createVuetify } from 'vuetify'
 import { useStore } from 'vuex'
+import { store } from '../state'
 export default {
-
     setup() {
         const store = useStore();
         const getFavoriteList = computed(() => store.getters.getFavoriteAnime);
 
         return { getFavoriteList };
+    },
+    methods: {
+        gotoWatch(id: number) {
+            this.$router.push({ name: "Serial", params: { id } });
+        },
+        deleatId(id: number) {
+            store.dispatch("filterFavorite", id)
+        }
     }
 }
 </script>
+
+<style scoped>
+.noselect {
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: red;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    background: #e62222;
+}
+
+.buttonTogo {
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    background: #2196F3;
+}
+
+button,
+button span {
+    transition: 200ms;
+}
+
+button .text {
+    transform: translateX(35px);
+    color: white;
+    font-weight: bold;
+}
+
+button .icon {
+    position: absolute;
+    border-left: 1px solid #c41b1b;
+    transform: translateX(110px);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonTogo .icon {
+    position: absolute;
+    border-left: 1px solid #744fd2;
+    transform: translateX(110px);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button svg {
+    width: 15px;
+    fill: #eee;
+}
+
+button:hover {
+    background: #ff3636;
+}
+
+.buttonTogo:hover {
+    background: #1e00ff;
+}
+
+button:hover .text {
+    color: transparent;
+}
+
+button:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(0);
+}
+
+button:focus {
+    outline: none;
+}
+
+button:active .icon svg {
+    transform: scale(0.8);
+}
+</style>

@@ -93,6 +93,10 @@ export const store = createStore({
     },
     AddAnimeFav(state, data) {
       state.favoriteList.push(data);
+      localStorage.setItem("saveList", data);
+    },
+    filterId(state, item) {
+      state.favoriteList = item;
     },
   },
   actions: {
@@ -152,6 +156,12 @@ export const store = createStore({
     },
     getIdAnime({ commit }, data) {
       commit("AddAnimeFav", data);
+    },
+    filterFavorite({ commit, state }, idToRemove) {
+      const updatedList = state.favoriteList.filter(
+        (item) => item.id !== idToRemove
+      );
+      commit("filterId", updatedList);
     },
   },
   getters: {
@@ -221,4 +231,9 @@ if (savedTheme) {
 const savedAccount = localStorage.getItem("boolean");
 if (savedAccount) {
   store.commit("setAccount", savedTheme);
+}
+
+const saveList = localStorage.getItem("data");
+if (saveList) {
+  store.dispatch("AddAnimeFav", saveList);
 }
