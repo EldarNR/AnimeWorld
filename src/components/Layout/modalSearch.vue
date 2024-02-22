@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 import { api } from '../../state/api';
@@ -74,12 +74,13 @@ export default {
         };
     },
     setup() {
-        api.dispatch('fetchForFilter');
+
         const store = useStore();
         const getRequestData = computed(() => store.getters.showRequestSearch);
         const getSearchList = computed(() => store.getters.getSearchList)
         const getBackgroundColor = computed(() => store.getters.backgroundColor)
 
+        onMounted(() => api.dispatch('fetchForFilter'))
         return { getRequestData, getSearchList, getBackgroundColor };
     },
     watch: {

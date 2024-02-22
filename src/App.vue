@@ -4,6 +4,9 @@
     <v-main :class="backgroundColor" class="d-flex justify-space-around">
       <router-view />
     </v-main>
+
+    <Footer :class="backgroundColor" />
+
   </v-app>
 </template>
 
@@ -12,6 +15,7 @@ import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 
 import Navbar from './components/Layout/Navbar.vue';
+import Footer from './components/Layout/Footer.vue';
 export default defineComponent({
   setup() {
     const store = useStore();
@@ -20,14 +24,13 @@ export default defineComponent({
       return store.getters.backgroundColor;
     });
 
-    const list = computed(() => {
-      return store.state.list;
-    });
 
     return {
       backgroundColor,
-      list,
-      Navbar
+
+      Navbar,
+      Footer
+
     };
   },
 });
@@ -40,3 +43,4 @@ a {
   cursor: pointer;
 }
 </style>
+

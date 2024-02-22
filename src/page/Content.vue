@@ -1,36 +1,32 @@
 <template>
     <v-container>
-        <Header />
-        <v-main>
-            <v-divider :thickness="5" class="ma-2"></v-divider>
-            <List v-if="showRequestListNewAnimeList" />
-            <Loading class="mx-auto my-auto" v-else />
-        </v-main>
-        <Pagination v-if="showRequestListNewAnimeList" class="mt-3" />
+        <Schedule class="mr-3 ml-3" v-if="getRequestData" />
+        <Loading class="mt-5 mx-auto" v-else />
+        <Blog />
     </v-container>
 </template>
 <script lang="ts">
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
-import List from '../components/Layout/List.vue';
-import Header from '../components/Layout/Header.vue';
-import { api } from '../state/api';
+import Schedule from '../components/Layout/Schedule.vue';
 import Loading from '../components/UIElements/Loading.vue';
-import Pagination from '../components/UIElements/Pagination.vue';
+import { api } from '../state/api';
+import BlogVue from '../components/Layout/Blog.vue';
 
 export default {
-    components: { Header, List, Loading, Pagination },
+    components: { Schedule, Loading, BlogVue },
+
     setup() {
         const store = useStore();
-        const showListNew = store.getters.getNewAnimeList;
-        const showRequestListNewAnimeList = computed(() => store.getters.showRequestNewAnimeList);
+        const getRequestData = computed(() => store.getters.showRequestList);
 
-        // Не сохраняйте локальную переменную, используйте геттер прямо в шаблоне
-        api.dispatch('fetchNewAnime');
-        api.dispatch("fetchRandom");
+        onMounted(() => {
+            api.dispatch('fetchList');
+        });
 
-        return { showListNew, showRequestListNewAnimeList };
+
+        return { getRequestData };
     }
 }
 </script>

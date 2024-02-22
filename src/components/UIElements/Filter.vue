@@ -48,7 +48,7 @@ export default defineComponent({
 
         const selectedGeneral = ref<string[]>([]);
 
-        const selected = () => {
+        const selected = async () => {
             const selectedGenres = new Set(selecterGenres.value.map(String));
             selectedGeneral.value = [...selectedGenres];
 

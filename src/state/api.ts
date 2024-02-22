@@ -9,7 +9,7 @@ export const api = createStore({
   state: {
     api: {
       method: "schedule?",
-      params: "days=1",
+      params: "days=0",
     },
     search: {
       method: "search?search=",
@@ -25,6 +25,9 @@ export const api = createStore({
     info: {
       method: "list?id_list=",
       params: "",
+    },
+    youtube: {
+      page: 1,
     },
     new: {
       method:
@@ -53,6 +56,9 @@ export const api = createStore({
     },
     setFilterforSearchYear(state, param) {
       state.search.filter.params.year = param;
+    },
+    changePage(state, day) {
+      state.youtube.page = day;
     },
   },
   actions: {
@@ -148,6 +154,21 @@ export const api = createStore({
       }
     },
 
+    async fetchBlog() {
+      try {
+        const response = await axios.get(
+          "https://api.anilibria.tv/v3/youtube?items_per_page=10&page=" +
+            this.state.youtube.page
+        );
+        store.commit("BlogYoutube", response.data);
+      } catch (error: any) {
+        console.error("Error fetching data:", error);
+      } finally {
+        store.commit("ReqestYoutube", true);
+        console.log("Request Received");
+      }
+    },
+
     async fetchRandom() {
       try {
         const responseGenres = await axios.get(base + "random");
@@ -221,6 +242,14 @@ api.watch(
   (state) => [state.new.method, state.new.params],
   () => {
     api.dispatch("fetchNewAnime");
+  },
+  { deep: true }
+);
+
+api.watch(
+  (state) => [state.youtube.page],
+  () => {
+    api.dispatch("fetchBlog");
   },
   { deep: true }
 );

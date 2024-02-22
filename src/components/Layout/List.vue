@@ -3,7 +3,7 @@
         <span class="text-h3 ">New anime</span>
 
         <v-row dense justify="center">
-            <v-col v-for="(item, innerIndex) in getNewAnime.list" :key="innerIndex" xs="12" sm="12" md="6" lg="4" xl="3"
+            <v-col v-for="(item, innerIndex) in getNewAnime.list" :key="innerIndex" xs="12" sm="12" md="6" lg="4" xl="4"
                 class="d-flex align-center justify-center">
                 <Card :card-data="item" />
             </v-col>

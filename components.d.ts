@@ -9,6 +9,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     Account: typeof import('./src/components/UIElements/Account.vue')['default']
     BlockComment: typeof import('./src/components/UIElements/BlockComment.vue')['default']
+    Blog: typeof import('./src/components/Layout/Blog.vue')['default']
+    BtnFavorite: typeof import('./src/components/UIElements/Btn-Favorite.vue')['default']
     Card: typeof import('./src/components/UIElements/Card.vue')['default']
     CardRandom: typeof import('./src/components/UIElements/CardRandom.vue')['default']
     Comment: typeof import('./src/components/UIElements/Comment.vue')['default']
@@ -19,6 +21,7 @@ declare module 'vue' {
     Emty: typeof import('./src/components/UIElements/Emty.vue')['default']
     Error404: typeof import('./src/components/UIElements/Error404.vue')['default']
     Filter: typeof import('./src/components/UIElements/Filter.vue')['default']
+    Footer: typeof import('./src/components/Layout/Footer.vue')['default']
     Header: typeof import('./src/components/Layout/Header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Info: typeof import('./src/components/UIElements/Info.vue')['default']

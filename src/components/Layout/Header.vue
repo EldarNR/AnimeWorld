@@ -2,7 +2,7 @@
     <v-container fluid>
         <v-row class="box d-flex align-center justify-space-evenly">
 
-            <v-col cols="6" xs="12" sm="6" md="6" lg="6" xl="12" xll="12" offset-sm="12" variant="outlined"
+            <v-col cols="12" :xs="12" sm="6" md="6" lg="6" xl="6" xxl="6" offset-sm="12" variant="outlined"
                 class="mb-5 pa-4 text-center" color="deep-purple-lighten-3" elevation="18">
                 <h2 class="text-h6 text-sm-h3 text-md-h4 text-lg-h2 text-xl-h1 ">Anime
                     World</h2>
@@ -12,7 +12,7 @@
                     here!</div>
             </v-col>
 
-            <v-col cols="6" xs="12" sm="6" md="6" lg="6" xl="12" xll="12" offset-sm="12" class="mt-1 mb-1 text-center">
+            <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6" xll="6" offset-sm="12" class="mt-1 mb-1 text-center">
                 Ищешь что посмотреть?
 
                 <CardRandom :anim="anim" :class="getBackgroundColor" v-if="request" />

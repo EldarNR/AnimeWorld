@@ -1,11 +1,14 @@
 <template>
     <section id="pagination">
-        <v-pagination v-model="model" :length="getPages - 10" density="comfortable" variant="text"></v-pagination>
+        <v-lazy v-if="getPages" :min-height="200" :options="{ 'threshold': 0.5 }" transition="fade-transition">
+            <v-pagination v-model="model" :length="getPages.pagination.pages - 10" :total-visible="6" density="comfortable"
+                variant="text"></v-pagination>
+        </v-lazy>
     </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import { useStore } from 'vuex';
 import { api } from '../../state/api';
 
@@ -19,8 +22,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
 
-
-        const getPages = store.getters.getNewAnimeList.data.pagination.pages;
+        const getPages = computed(() => store.getters.getNewAnimeList.data);
         return { getPages };
     },
     watch: {

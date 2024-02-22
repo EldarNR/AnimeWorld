@@ -5,7 +5,8 @@
             <v-menu>
                 <template v-slot:activator="{ props }">
                     <v-list id="user" class="pl-1 pr-2 my-auto" :class="changeColor" v-bind="props" style="cursor: pointer">
-                        <v-avatar image="https://cdn.vuetifyjs.com/images/john.jpg" size="45"></v-avatar>
+                        <v-avatar color="grey-darken-3"
+                            image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"></v-avatar>
                         <span class="text-h6 ml-1">Demo</span>
                     </v-list>
                 </template>

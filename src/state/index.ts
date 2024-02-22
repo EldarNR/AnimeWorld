@@ -15,6 +15,7 @@ export const store = createStore({
       info: false,
       newAnimeList: false,
       randomAnime: false,
+      youtube: false,
     },
 
     favoriteList: [] as IdFavorite[],
@@ -28,6 +29,7 @@ export const store = createStore({
       Year: [],
     },
 
+    youtube: {},
     error: {
       error404: false,
       error500: false,
@@ -97,6 +99,12 @@ export const store = createStore({
     },
     filterId(state, item) {
       state.favoriteList = item;
+    },
+    BlogYoutube(state, list) {
+      state.youtube = list;
+    },
+    ReqestYoutube(state, request) {
+      state.request.youtube = request;
     },
   },
   actions: {
@@ -218,6 +226,12 @@ export const store = createStore({
     },
     getRequestRandom(state) {
       return state.request.randomAnime;
+    },
+    getBlog(state) {
+      return state.youtube;
+    },
+    showRequestBlog(state) {
+      return state.request.youtube;
     },
   },
 });

@@ -45,11 +45,15 @@
                         </v-list-item>
 
                     </v-item-group>
+                    <v-list-item class="my-5">
+                        <btn-favorite :post="posts" />
+                    </v-list-item>
 
 
 
 
                 </v-col>
+
             </v-row>
         </div>
     </v-lazy>
@@ -59,8 +63,10 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
 import { ForCard } from '../typification/List';
+import BtnFavorite from './Btn-Favorite.vue';
 
 export default defineComponent({
+    components: { BtnFavorite },
     props: {
         posts: {
             type: Object as PropType<ForCard>,

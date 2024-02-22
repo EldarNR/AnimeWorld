@@ -27,8 +27,11 @@
 
             <v-divider class="mx-4 mb-1"></v-divider>
             <v-card-actions>
-                <v-btn color="deep-purple-lighten-2" variant="text" @click="goToInfo(cardData.id)">Смотреть</v-btn>
+                <v-btn color="deep-purple-lighten-2" variant="text" @click="goToInfo(cardData.id)">Смотреть 
+                    <v-icon>mdi-play-circle-outline</v-icon></v-btn>
+                <btn-favorite :post="cardData" />
             </v-card-actions>
+
         </v-card>
     </v-lazy>
 </template>
@@ -36,9 +39,14 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
+import { store } from '../../state';
 import { ForCard } from '../typification/List';
+import BtnFavorite from './Btn-Favorite.vue';
 
 export default defineComponent({
+    components: {
+        BtnFavorite
+    },
     props: {
         cardData: {
             type: Object as PropType<ForCard>,
@@ -60,7 +68,7 @@ export default defineComponent({
         goToInfo(id: number) {
             this.$router.push({ name: "Serial", params: { id } });
         },
-    },
+    }
 });
 </script>
   

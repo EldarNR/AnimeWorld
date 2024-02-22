@@ -1,8 +1,7 @@
 <template>
-    <v-card class="mx-auto text-center rounded-xl" max-width="300">
+    <v-card class="mx-auto text-center rounded-xl" max-width="350">
         <div align="center">
-
-            <v-img class="mt-2" :src="`https://anilibria.tv${anim.posters.small.url}`" max-width="200px" alt="poster"
+            <v-img class="mt-2" :src="`https://anilibria.tv${anim.posters.small.url}`" max-width="350px" alt="poster"
                 cover></v-img>
         </div>
 
@@ -18,27 +17,51 @@
 
         <v-card-actions class="text-subtitle mx-auto d-flex justify-center">
             <v-btn color="info" @click="goToInfo(anim.id)">
-                Смотреть
+                Смотреть <v-icon>mdi-play-circle-outline</v-icon>
             </v-btn>
-            <v-btn color="orange-lighten-2"
-                @click="getId({ id: anim.id, title: anim.names.ru, description: anim.description, img: anim.posters.original.url })">
-                В избранное
-            </v-btn>
+            <BtnFavorite :post="anim" />
         </v-card-actions>
+        <v-divider class="mx-4 mb-1"></v-divider>
+        <v-btn color="success" class="mb-2 mt-1" @click="forceUpdateComponent()"><v-icon
+                size="25">mdi-clover</v-icon></v-btn>
     </v-card>
 </template>
   
 <script lang="ts">
 import { store } from '../../state';
+import { api } from '../../state/api';
+import BtnFavorite from './Btn-Favorite.vue';
+
+interface CardData {
+    genres: [];
+
+    id: number;
+    names: {
+        ru: string;
+    };
+    description: string;
+    posters: {
+        original: {
+            url: string;
+        },
+        small: {
+            url: string,
+        }
+    },
+
+
+}
+
 export default {
     data() {
         return {
             imageLoaded: false
         };
     },
+    components: { BtnFavorite },
     props: {
         anim: {
-            type: Object,
+            type: Object as () => CardData,
             required: true
         }
     },
@@ -52,6 +75,9 @@ export default {
         },
         getImg() {
             this.imageLoaded = true;
+        },
+        forceUpdateComponent() {
+            api.dispatch("fetchRandom");
         }
     }
 }

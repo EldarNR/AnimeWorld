@@ -2,8 +2,8 @@
     <v-container>
         <span> It's my favourite anime list</span>
         <v-row v-if="getFavoriteList.length !== 0" class="mt-3">
-            <v-card v-for="(item, i) in getFavoriteList" max-height="320px" elevation="16"
-                class="d-flex align-center mb-3 rounded-xl pa-3 bg-blue-grey-darken-1" :key="i">
+            <v-card v-for="item in getFavoriteList" max-height="320px" elevation="16"
+                class="d-flex align-center mb-3 rounded-xl pa-3 bg-blue-grey-darken-1" :key="item.id">
                 <v-col cols="2" :xs="3" sm="3" md="3" lg="2">
                     <v-img width="200" :src="`https://anilibria.tv${item.img}`" class="float-right" alt="poster"
                         cover></v-img>
