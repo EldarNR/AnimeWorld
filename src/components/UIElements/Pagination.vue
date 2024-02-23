@@ -1,5 +1,5 @@
 <template>
-    <section id="pagination">
+    <section id="pagination" class="mt-3">
         <v-lazy v-if="getPages" :min-height="200" :options="{ 'threshold': 0.5 }" transition="fade-transition">
             <v-pagination v-model="model" :length="getPages.pagination.pages - 10" :total-visible="6" density="comfortable"
                 variant="text"></v-pagination>

@@ -45,7 +45,16 @@
                     </v-list-item>
                     <v-list-item value="content">
                         <modalSearch :active="true" />
+
                     </v-list-item>
+                    <v-list-item value="content">
+                        <v-btn icon v-if="showUser" @click="goToFavourite">
+                            <v-icon>mdi-heart</v-icon>
+                        </v-btn>
+
+                    </v-list-item>
+
+
                 </v-list>
 
                 <v-divider class="mb-2"></v-divider>

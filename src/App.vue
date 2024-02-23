@@ -2,7 +2,7 @@
   <v-app>
     <Navbar />
     <v-main :class="backgroundColor" class="d-flex justify-space-around">
-      <router-view />
+      <router-view class="content" />
     </v-main>
 
     <Footer :class="backgroundColor" />

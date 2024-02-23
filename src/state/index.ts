@@ -177,7 +177,7 @@ export const store = createStore({
       return state.account;
     },
     backgroundColor(state) {
-      return state.backgroundColor ? "bg-grey-darken-4" : "bg-grey-lighten-5";
+      return state.backgroundColor ? "bg-grey-lighten-5" : "bg-grey-darken-4";
     },
     backgroundColorBollen(state) {
       return state.backgroundColor;

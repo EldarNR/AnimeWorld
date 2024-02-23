@@ -26,7 +26,7 @@
                 </v-slide-group-item>
             </v-slide-group>
         </v-sheet>
-        <v-pagination v-if="getLoading" class="mt-5" v-model="page" :length="getBlog.pagination.pages"
+        <v-pagination v-if="getLoading" class="mt-5" v-model="page" :total-visible="5" :length="getBlog.pagination.pages"
             density="comfortable"></v-pagination>
     </v-container>
 </template>

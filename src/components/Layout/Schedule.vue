@@ -1,11 +1,11 @@
 <template>
     <section id="schedule">
-        <span class="text-title text-sm-body-2 text-md-h6 text-lg-body-1 text-xl-h5 text-xxl-h4">Anime World Presents <br>
+        <span class="text-title text-sm-body-2 text-md-h5 text-lg-h4 text-xl-h5 text-xxl-h4">Anime World Presents <br>
         </span>
         <span>
             Episode Schedule
         </span>
-        <div class="d-flex align-center" align="center">
+        <div class="d-flex align-center text-body-1" align="center">
             <v-chip-group>
                 <v-chip v-for="day in days" :key="day.id" v-on:click="getDays(day.id)">{{ day.day }}</v-chip>
             </v-chip-group>
