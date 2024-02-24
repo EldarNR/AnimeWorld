@@ -1,6 +1,8 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { registerPlugins } from "@/plugins";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 import App from "./App.vue";
 import MainPage from "../src/page/MainPage.vue";
@@ -10,6 +12,7 @@ import SerialVue from "./page/Serial.vue";
 import { api } from "./state/api";
 import Error404Vue from "./page/Error/Error404.vue";
 import LoginVue from "./page/Login.vue";
+import { firebaseConfig } from "./state/firebase";
 import FavoriteVue from "./page/Favorite.vue";
 
 const router = createRouter({
@@ -81,6 +84,9 @@ router.beforeEach((to, from, next) => {
 });
 
 const app = createApp(App);
+// Initialize Firebase
+export const base = initializeApp(firebaseConfig);
+const analytics = getAnalytics(base);
 
 registerPlugins(app);
 app.use(store);

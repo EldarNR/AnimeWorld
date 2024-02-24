@@ -2,7 +2,7 @@
     <v-container>
         <span class="text-h5 ">Blog / Youtube</span><br />
         <span class="text-subtitle mb-1 ">Каждый день новые видео</span>
-        <v-sheet v-if="getLoading" class="mx-auto" elevation="8" :class="getThem" max-width="1000px">
+        <v-sheet v-if="getLoading" class="mx-auto" elevation="8" :class="getThem">
 
             <v-slide-group v-model="model" class="pa-4 mt-3" selected-class="bg-error" show-arrows>
                 <v-slide-group-item v-for="item in getBlog.list" :key="item.id"

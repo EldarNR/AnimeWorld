@@ -1,6 +1,6 @@
 <template>
     <v-lazy :min-height="200" :options="{ 'threshold': 0.5 }" transition="fade-transition">
-        <v-card :loading="loading" :class="getBackgroundColor" class="mx-auto ma-2" max-width="374" elevation="10">
+        <v-card :loading="loading" :class="getBackgroundColor" class="mx-auto ma-2" max-width="350" elevation="10">
             <template v-slot:loader="{ isActive }">
                 <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
             </template>

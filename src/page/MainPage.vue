@@ -1,12 +1,12 @@
 <template>
     <v-container fluid id="schedule">
-        <Header />
+        <Header :class="!getThem" />
         <v-main>
             <v-divider :thickness="5" class="ma-2"></v-divider>
             <List v-if="showRequestListNewAnimeList" />
             <Loading class="mx-auto my-auto" v-else />
         </v-main>
-        <pagination/>
+        <pagination />
     </v-container>
 </template>
     
@@ -26,13 +26,14 @@ export default {
         const store = useStore();
         const showListNew = computed(() => store.getters.getNewAnimeList);
         const showRequestListNewAnimeList = computed(() => store.getters.showRequestNewAnimeList);
+        const getThem = computed(() => store.getters.backgroundColor)
 
         onMounted(() => {
             api.dispatch("fetchRandom");
             api.dispatch('fetchNewAnime');
         });
 
-        return { showListNew, showRequestListNewAnimeList };
+        return { showListNew, showRequestListNewAnimeList, getThem };
     }
 }
 </script>

@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <Navbar />
-    <v-main :class="backgroundColor" class="d-flex justify-space-around">
+    <v-main :class="backgroundColor">
       <router-view class="content" />
     </v-main>
 
-    <Footer :class="backgroundColor" />
+    <Footer :class="backgroundColor" elevation="16" class="footer mx-auto " />
 
   </v-app>
 </template>
@@ -41,6 +41,12 @@ a {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+}
+
+
+.content {
+  max-width: 1280px;
+
 }
 </style>
 

@@ -4,8 +4,8 @@
 
             <v-row>
                 <v-col xs="12" md="5" lg="4" xl="3" xxl="3" class="d-flex align-center justify-center">
-                    <img cover class="d-flex justify-center ma-2" :src="`https://anilibria.tv${posts.posters.original.url}`"
-                        alt="poster" />
+                    <img class="d-flex justify-center ma-2" width="250"
+                        :src="`https://anilibria.tv${posts.posters.original.url}`" alt="poster" />
 
                 </v-col>
 
@@ -19,7 +19,7 @@
 
                         <v-divider :thickness="1" class="mr-2"></v-divider>
 
-                        <v-expansion-panels variant="accordion" class="mt-2">
+                        <v-expansion-panels variant="accordion" class="ma-3">
                             <v-expansion-panel title="Описание" :class="getThem"
                                 class="text-caption text-sm-subtitle-2 text-md-subtitle-2 text-lg-body-1 text-xl-body-1 text-justify overflow-auto ml-1 mr-2"
                                 :text="posts.description">
