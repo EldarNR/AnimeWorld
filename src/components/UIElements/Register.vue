@@ -2,6 +2,17 @@
     <form class="form mt-3">
         <span class="text-h3 ">Register</span>
         <div class="flex-column">
+            <label>Your Name</label>
+        </div>
+        <div class="inputForm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 24 24">
+                <title>account</title>
+                <path
+                    d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+            </svg>
+            <input placeholder="Create your Name" autocomplete="name" v-model="name" class="input" type="text">
+        </div>
+        <div class="flex-column">
             <label>Email </label>
         </div>
         <div class="inputForm">
@@ -12,7 +23,7 @@
                     </path>
                 </g>
             </svg>
-            <input placeholder="Enter your Email" autocomplete="email" v-model="email" class="input" type="text">
+            <input placeholder="Create your Email" autocomplete="email" v-model="email" class="input" type="text">
         </div>
 
         <div class="flex-column">
@@ -27,64 +38,110 @@
                     d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
                 </path>
             </svg>
-            <input current-password autocomplete="password" v-model="password" placeholder="Enter your Password"
+            <input current-password autocomplete="password" v-model="password" placeholder="Create your Password"
+                class="input" type="password">
+        </div>
+        <v-alert v-if="error.alert" density="compact" type="warning" title="Ошибка!" :text="error.message"></v-alert>
+        <div class="inputForm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="-64 0 512 512" height="20">
+                <path
+                    d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0">
+                </path>
+                <path
+                    d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
+                </path>
+            </svg>
+            <input current-password autocomplete="password" v-model="repeatPassword" placeholder="Repeat your password"
                 class="input" type="password">
         </div>
 
-        <div class="flex-row">
-            <div>
-                <input type="radio">
-                <label class=""> Remember me </label>
-            </div>
-            <span class="span">Forgot password?</span>
-        </div>
 
-        <v-btn class="button-submit" @click="signIn">Sign In</v-btn>
-
-        <p class="p">Don't have an account? <span class="span">Sign Up</span>
-
-        </p>
-        <p class="p line">Or</p>
+        <span class="text-caption text-left">
+            - Пароль должен быть не менее 5 - букв, <br>
+            - Пароль должен быть не должно быть символов
+        </span>
 
 
-        <span class="p line">Email: <b>Demo</b>
-            Password: <b>Demo</b></span>
+        <v-btn class="button-submit" @click="register">Sign In</v-btn>
+
     </form>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { base } from "../../main"
-
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getDatabase, ref, set } from "firebase/database";
+import { base } from "../../main";
+import { store } from "../../state";
+import { FirebaseError } from "firebase/app";
+// Завтра:Сделать профиль  
 export default defineComponent({
     data() {
         return {
+            name: '',
             email: '',
             password: '',
-            alert: false
+            repeatPassword: '',
+            error: {
+                alert: false,
+                message: "",
+            },
         };
     },
     methods: {
-        async signIn() {
-            try {
-                const auth = getAuth(base);
-                const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
+        async register() {
+            const auth = getAuth(base);
 
-                this.$router.push({ name: "Home" });
-                // Успешный вход в систему, выполните действия, например, перенаправьте пользователя на другую страницу
+            if (this.email === '' || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(this.email)) {
+                store.commit('showAlert', { boolean: true, message: "Email is not correct!" });
+                return;
+            }
+
+            if (this.password !== this.repeatPassword) {
+                store.commit('showAlert', { boolean: true, message: "Passwords don't match!" });
+                return;
+            }
+
+            if (this.password.length < 5) {
+                store.commit('showAlert', { boolean: true, message: "Password must be at least 5 characters long" });
+                return;
+            }
+
+            if (!/^[a-zA-Z0-9]+$/.test(this.password)) {
+                store.commit('showAlert', { boolean: true, message: "Password must not contain special characters" });
+                return;
+            }
+
+            try {
+                await createUserWithEmailAndPassword(auth, this.email.toLowerCase(), this.password.toLowerCase())
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        this.$router.push({ name: "Home" });
+                    });
             } catch (error: any) {
-                this.alert = true;
-                setTimeout(() => {
-                    this.alert = false;
-                }, 2000);
+                const errorCode = (error as FirebaseError).code;
+                let errorMessage = "";
+                switch (errorCode) {
+                    case "auth/email-already-in-use":
+                        errorMessage = "Email is already in use";
+                        break;
+                    case "auth/invalid-email":
+                        errorMessage = "Invalid email format";
+                        break;
+                    case "auth/weak-password":
+                        errorMessage = "Password is too weak";
+                        break;
+                    default:
+                        errorMessage = "Registration failed. Please try again later";
+                }
+                store.commit('showAlert', { boolean: true, message: errorMessage });
                 console.error("Error:", error.message);
             }
         },
         goToSignUp() {
-            // Перенаправление на страницу регистрации
             this.$router.push({ name: 'SignUp' });
         }
     }
 })
 </script>
+

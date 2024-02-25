@@ -29,6 +29,11 @@ export const store = createStore({
       Year: [],
     },
 
+    login: {
+      alert: false,
+      message: String,
+    },
+
     youtube: {},
     error: {
       error404: false,
@@ -105,6 +110,12 @@ export const store = createStore({
     },
     ReqestYoutube(state, request) {
       state.request.youtube = request;
+    },
+    async showAlert(state, { boolean, message }) {
+      state.login.alert = boolean;
+      state.login.message = message;
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      state.login.alert = !boolean;
     },
   },
   actions: {
@@ -232,6 +243,12 @@ export const store = createStore({
     },
     showRequestBlog(state) {
       return state.request.youtube;
+    },
+    getLoginAlert(state) {
+      return state.login.alert ;
+    },
+    getMessageAlert(state) {
+      return state.login.message ;
     },
   },
 });

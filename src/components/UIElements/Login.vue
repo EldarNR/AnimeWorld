@@ -56,17 +56,23 @@
 import { defineComponent } from "vue";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { base } from "../../main"
+import { store } from "../../state";
 
 export default defineComponent({
     data() {
         return {
-            email: '',
-            password: ''
+            email: "" as string,
+            password: "" as string
         };
     },
-    emits: ['alerts'],
+
     methods: {
         async signIn() {
+            if (!this.email || !this.password) {
+                store.commit('showAlert', { boolean: true, message: "Не верный email или пароль" });
+                return; // Прерываем выполнение метода, если email или password пустые
+            }
+
             try {
                 const auth = getAuth(base);
                 const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
@@ -74,14 +80,10 @@ export default defineComponent({
                 this.$router.push({ name: "Home" });
                 // Успешный вход в систему, выполните действия, например, перенаправьте пользователя на другую страницу
             } catch (error: any) {
-                this.$emit('alerts');
+                store.commit('showAlert', { boolean: true, message: "Не верный email или пароль" });
                 console.error("Error:", error.message);
             }
         },
-        goToSignUp() {
-            // Перенаправление на страницу регистрации
-            this.$router.push({ name: 'SignUp' });
-        }
     }
 })
 </script>

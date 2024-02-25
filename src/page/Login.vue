@@ -1,25 +1,23 @@
 <template>
-    <v-container class="my-auto" align="center">
+    <v-container class="my-auto conten" align="center">
         <v-card class="mx-auto mt-10 px-6 py-8" max-width="344">
 
-            <v-alert v-if="alert" density="compact" type="warning" title="Ошибка!"
-                text="Не верный email или пароль"></v-alert>
+            <v-alert v-if="getAlert" density="compact" type="warning" title="Ошибка!" :text="getAlertMessage"></v-alert>
             <div class="tab-container">
                 <button class="tab tab--1" @click="switchs = true">Sign in</button>
                 <button class="tab tab--2" @click="switchs = false">Register</button>
                 <div class="indicator" :style="{ left: switchs ? '2px' : 'calc(50% - 2px)' }"></div>
             </div>
 
-            <login v-if="switchs" :alerts="showAlert()" />
+            <login v-if="switchs" />
             <register v-else />
         </v-card>
     </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { base } from "../main";
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 import Login from '../components/UIElements/Login.vue';
 import Register from "../components/UIElements/Register.vue"
 export default defineComponent({
@@ -27,27 +25,26 @@ export default defineComponent({
         return {
             email: '',
             password: '',
-            alert: false,
             switchs: true,
         };
     },
     components: { Login, Register },
-    methods: {
-        showAlert() {
-            this.alert = true;
-            setTimeout(() => {
-                this.alert = false;
-            }, 2000);
-        },
-        goToSignUp() {
-            // Перенаправление на страницу регистрации
-            this.$router.push({ name: 'SignUp' });
-        }
+    setup() {
+        const s = useStore();
+        const getAlert = computed(() => s.getters.getLoginAlert);
+        const getAlertMessage = computed(() => s.getters.getMessageAlert);
+
+        return { getAlert, getAlertMessage }
+
     }
 });
 </script>
 
 <style>
+.conten {
+    height: 87dvh;
+}
+
 .tab-container {
     display: flex;
     flex-direction: row;
