@@ -33,8 +33,8 @@
 
         <div class="flex-row">
             <div>
-                <input type="radio">
-                <label class=""> Remember me </label>
+                <input @click="remebmer = true" type="radio">
+                <label> Remember me </label>
             </div>
             <span class="span">Forgot password?</span>
         </div>
@@ -55,6 +55,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
 import { base } from "../../main"
 import { store } from "../../state";
 
@@ -62,7 +63,8 @@ export default defineComponent({
     data() {
         return {
             email: "" as string,
-            password: "" as string
+            password: "" as string,
+            remebmer: false,
         };
     },
 
@@ -77,6 +79,7 @@ export default defineComponent({
                 const auth = getAuth(base);
                 const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
 
+                store.commit("setAccount", { boolean: true, rememberme: this.remebmer });
                 this.$router.push({ name: "Home" });
                 // Успешный вход в систему, выполните действия, например, перенаправьте пользователя на другую страницу
             } catch (error: any) {

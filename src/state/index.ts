@@ -1,10 +1,15 @@
 import { createStore } from "vuex";
 import { Comment, IdFavorite } from "../components/typification/UIType";
+import { computed } from "vue";
 
 export const store = createStore({
   state: {
     id: undefined,
-    account: false,
+    account: {
+      input: false,
+      rememberme: false,
+      userName: String,
+    },
     list: {},
     newlist: {},
     search: {},
@@ -94,9 +99,17 @@ export const store = createStore({
     RequestRandom(state, request) {
       state.request.randomAnime = request;
     },
-    setAccount(state, boolean) {
-      state.account = boolean;
-      localStorage.setItem("boolean", boolean);
+    setAccount(state, account: { boolean: boolean; rememberme: boolean }) {
+      state.account.input = account.boolean;
+      state.account.rememberme = account.rememberme;
+
+      if (account.rememberme) {
+        // Если rememberme равен true, сохраняем состояние в локальном хранилище
+        localStorage.setItem("rememberme", JSON.stringify(account.rememberme));
+      } else {
+        // Если rememberme равен false, удаляем состояние из локального хранилища
+        localStorage.removeItem("rememberme");
+      }
     },
     AddAnimeFav(state, data) {
       state.favoriteList.push(data);
@@ -116,6 +129,9 @@ export const store = createStore({
       state.login.message = message;
       await new Promise((resolve) => setTimeout(resolve, 2000));
       state.login.alert = !boolean;
+    },
+    setUserName(state, name) {
+      state.account.userName = name;
     },
   },
   actions: {
@@ -169,9 +185,6 @@ export const store = createStore({
     },
     getRequestRandom({ commit }, request) {
       commit("RequestRandom", request);
-    },
-    getAccountInfo({ commit }, boolean) {
-      commit("setAccount", boolean);
     },
     getIdAnime({ commit }, data) {
       commit("AddAnimeFav", data);
@@ -245,10 +258,13 @@ export const store = createStore({
       return state.request.youtube;
     },
     getLoginAlert(state) {
-      return state.login.alert ;
+      return state.login.alert;
     },
     getMessageAlert(state) {
-      return state.login.message ;
+      return state.login.message;
+    },
+    showNameUser(state) {
+      return state.account.userName;
     },
   },
 });
@@ -259,9 +275,9 @@ if (savedTheme) {
   store.commit("changeBackgroundColor", savedTheme);
 }
 
-const savedAccount = localStorage.getItem("boolean");
+const savedAccount = localStorage.getItem("rememberme");
 if (savedAccount) {
-  store.commit("setAccount", savedTheme);
+  store.commit("setAccount", { boolean: true });
 }
 
 const saveList = localStorage.getItem("data");

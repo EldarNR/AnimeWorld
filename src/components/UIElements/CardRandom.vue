@@ -1,7 +1,7 @@
 <template>
     <v-card class="mx-auto text-center rounded-xl" max-width="350">
         <div align="center">
-            <v-img class="mt-2" :src="`https://anilibria.tv${anim.posters.small.url}`" max-width="350px" alt="poster"
+            <v-img :src="`https://anilibria.tv${anim.posters.small.url}`" max-width="350px" alt="poster"
                 cover></v-img>
         </div>
 

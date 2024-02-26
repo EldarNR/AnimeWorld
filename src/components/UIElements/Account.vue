@@ -1,12 +1,13 @@
 
 <template>
     <v-list-item class="mx-auto d-flex flex-column align-start justify-center ">
-        <div v-if="userInAccount" class="d-flex align-center">
+        <div v-if="userInAccount.input" class="d-flex align-center">
             <v-menu>
                 <template v-slot:activator="{ props }">
                     <v-list id="user" class="pl-1 pr-2 my-auto" :class="changeColor" v-bind="props" style="cursor: pointer">
                         <v-avatar color="grey-darken-3"
                             image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"></v-avatar>
+
                         <span class="text-h6 ml-1">Demo</span>
                     </v-list>
                 </template>
@@ -22,9 +23,11 @@
 </template>
 
 <script lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { getDatabase, ref, onValue, get, child } from "firebase/database";
 import { store } from '../../state';
+import { getAuth } from 'firebase/auth';
 
 export default {
     setup() {
@@ -33,16 +36,27 @@ export default {
         const userInAccount = computed(() => store.getters.getAccount);
         const changeColor = computed(() => store.getters.backgroundColor);
 
-        const drawer = ref(false);
-        return { drawer, userInAccount, changeColor };
+
+        function login() {
+            const db = ref(getDatabase());
+            get(child(db, "users")).then((snapshot) => {
+
+                console.log(snapshot)
+            })
+
+        }
+
+
+
+        return { userInAccount, changeColor, login };
     },
     methods: {
         goToLogin() {
             this.$router.push({ name: "Login" });
         },
         Logout() {
-            store.dispatch("getAccountInfo", false);
+            store.commit("setAccount", { boolean: false, rememberme: false });
         }
-    },
+    }
 }
 </script>

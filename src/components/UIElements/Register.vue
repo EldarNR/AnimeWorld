@@ -89,6 +89,14 @@ export default defineComponent({
         };
     },
     methods: {
+        async writeUserData(userId: string, name: string, email: string, imageUrl: string) {
+            const db = getDatabase();
+            set(ref(db, 'users/' + userId), {
+                username: name,
+                email: email,
+                profile_picture: imageUrl
+            });
+        },
         async register() {
             const auth = getAuth(base);
 
@@ -113,13 +121,20 @@ export default defineComponent({
             }
 
             try {
-                await createUserWithEmailAndPassword(auth, this.email.toLowerCase(), this.password.toLowerCase())
-                    .then((userCredential) => {
-                        const user = userCredential.user;
-                        this.$router.push({ name: "Home" });
-                    });
+                const userCredential = await createUserWithEmailAndPassword(auth, this.email.toLowerCase(), this.password.toLowerCase());
+                const user = userCredential.user;
+                const userName = auth.currentUser;
+                const userId = user.uid;
+
+                // Вызываем функцию для записи данных пользователя в базу данных
+                this.writeUserData(userId, this.name, this.email, "");
+
+                // Перенаправляем пользователя на главную страницу после успешной регистрации
+                store.commit("setAccount", { boolean: true, rememberme: false });
+                store.commit("setUserName", userName)
+                this.$router.push({ name: "Home" });
             } catch (error: any) {
-                const errorCode = (error as FirebaseError).code;
+                const errorCode = error.code;
                 let errorMessage = "";
                 switch (errorCode) {
                     case "auth/email-already-in-use":
