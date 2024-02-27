@@ -90,7 +90,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const getThem = computed(() => store.getters.backgroundColor);
-        const showUser = computed(() => store.getters.getAccount);
+        const showUser = computed(() => store.getters.getAccount.input);
 
 
         const drawer = ref(false);

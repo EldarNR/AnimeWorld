@@ -131,7 +131,6 @@ export default defineComponent({
 
                 // Перенаправляем пользователя на главную страницу после успешной регистрации
                 store.commit("setAccount", { boolean: true, rememberme: false });
-                store.commit("setUserName", userName)
                 this.$router.push({ name: "Home" });
             } catch (error: any) {
                 const errorCode = error.code;

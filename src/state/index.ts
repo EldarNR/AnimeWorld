@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import { Comment, IdFavorite } from "../components/typification/UIType";
 import { computed } from "vue";
+import { api } from "./api";
 
 export const store = createStore({
   state: {
@@ -8,7 +9,11 @@ export const store = createStore({
     account: {
       input: false,
       rememberme: false,
-      userName: String,
+      information: {
+        name: "User",
+        email: undefined as unknown,
+        picture: undefined as unknown,
+      },
     },
     list: {},
     newlist: {},
@@ -130,8 +135,10 @@ export const store = createStore({
       await new Promise((resolve) => setTimeout(resolve, 2000));
       state.login.alert = !boolean;
     },
-    setUserName(state, name) {
-      state.account.userName = name;
+    setUser(state, user: { name: string; email: string; picture?: string }) {
+      state.account.information.name = user.name;
+      state.account.information.email = user.email;
+      state.account.information.picture = user.picture;
     },
   },
   actions: {
@@ -200,6 +207,9 @@ export const store = createStore({
     getAccount(state) {
       return state.account;
     },
+    getInfoAccount(state) {
+      return state.account.information;
+    },
     backgroundColor(state) {
       return state.backgroundColor ? "bg-grey-lighten-5" : "bg-grey-darken-4";
     },
@@ -262,9 +272,6 @@ export const store = createStore({
     },
     getMessageAlert(state) {
       return state.login.message;
-    },
-    showNameUser(state) {
-      return state.account.userName;
     },
   },
 });

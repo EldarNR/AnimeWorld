@@ -58,6 +58,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { base } from "../../main"
 import { store } from "../../state";
+import { api } from "../../state/api";
 
 export default defineComponent({
     data() {
@@ -78,13 +79,17 @@ export default defineComponent({
             try {
                 const auth = getAuth(base);
                 const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
-
-                store.commit("setAccount", { boolean: true, rememberme: this.remebmer });
+                const user = auth.currentUser;
+                api.commit("setUid", user?.uid);
                 this.$router.push({ name: "Home" });
                 // Успешный вход в систему, выполните действия, например, перенаправьте пользователя на другую страницу
             } catch (error: any) {
                 store.commit('showAlert', { boolean: true, message: "Не верный email или пароль" });
                 console.error("Error:", error.message);
+            } finally {
+                store.commit("setAccount", { boolean: true, rememberme: false });
+
+
             }
         },
     }

@@ -1,5 +1,6 @@
 // В файле с экшенами и стором Vuex
 import { createStore } from "vuex";
+import { getDatabase, ref, onValue } from "firebase/database";
 import axios from "axios";
 import { store } from ".";
 
@@ -34,6 +35,7 @@ export const api = createStore({
         "updates?description_type=plain&playlist_type=array&items_per_page=10&page=",
       params: "1",
     },
+    accountUID: "",
   },
   mutations: {
     setApiParams(state, params) {
@@ -59,6 +61,9 @@ export const api = createStore({
     },
     changePage(state, day) {
       state.youtube.page = day;
+    },
+    setUid(state, uid) {
+      state.accountUID = uid;
     },
   },
   actions: {
@@ -181,6 +186,23 @@ export const api = createStore({
       }
     },
 
+    async getAccount({ state }) {
+      try {
+        const db = getDatabase();
+        const starCountRef = ref(db, "users/" + `${state.accountUID}`);
+        onValue(starCountRef, (snapshot) => {
+          const data = snapshot.val();
+          store.commit("setUser", {
+            name: data.username,
+            email: data.email,
+            picture: data.picture,
+          });
+        });
+      } catch (error) {
+        console.error("Error in getAccount:", error);
+      }
+    },
+
     setApiParams({ commit }, params) {
       commit("setApiParams", params);
     },
@@ -250,6 +272,14 @@ api.watch(
   (state) => [state.youtube.page],
   () => {
     api.dispatch("fetchBlog");
+  },
+  { deep: true }
+);
+
+api.watch(
+  (state) => [state.accountUID],
+  () => {
+    api.dispatch("getAccount");
   },
   { deep: true }
 );
