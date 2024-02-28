@@ -1,11 +1,11 @@
 <template>
     <v-footer class="d-flex flex-column">
         <div class="d-flex w-50 align-center px-4">
-            <strong>Get connected with us on social networks!</strong>
+            <strong class="text-caption">Get connected with us on social networks!</strong>
 
             <v-spacer></v-spacer>
 
-            <v-btn v-for="icon in icons" :key="icon" class="mx-4" :icon="icon" variant="plain" size="small"></v-btn>
+            <v-btn v-for="icon in icons" :key="icon" :icon="icon" variant="plain" size="small"></v-btn>
         </div>
 
         <div class="px-4 py-2 text-center w-50">

@@ -76,11 +76,13 @@ export default defineComponent({
                 return; // Прерываем выполнение метода, если email или password пустые
             }
 
+            let user; // Объявляем переменную user здесь
+
             try {
                 const auth = getAuth(base);
                 const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
-                const user = auth.currentUser;
-                api.commit("setUid", user?.uid);
+                user = auth.currentUser; // Присваиваем значение текущего пользователя переменной user
+
                 this.$router.push({ name: "Home" });
                 // Успешный вход в систему, выполните действия, например, перенаправьте пользователя на другую страницу
             } catch (error: any) {
@@ -89,9 +91,12 @@ export default defineComponent({
             } finally {
                 store.commit("setAccount", { boolean: true, rememberme: false });
 
-
+                if (user) { // Проверяем, что user определен
+                    api.commit("setUid", user.uid); // Используем свойство uid для получения идентификатора пользователя
+                }
             }
-        },
+        }
+
     }
 })
 </script>

@@ -207,9 +207,6 @@ export const store = createStore({
     getAccount(state) {
       return state.account;
     },
-    getInfoAccount(state) {
-      return state.account.information;
-    },
     backgroundColor(state) {
       return state.backgroundColor ? "bg-grey-lighten-5" : "bg-grey-darken-4";
     },

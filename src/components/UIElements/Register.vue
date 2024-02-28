@@ -1,5 +1,9 @@
 <template>
     <form class="form mt-3">
+        <v-progress-linear color="success" :active="success.alert" :indeterminate="success.alert" absolute
+            bottom></v-progress-linear>
+        <v-alert color="success" v-if="success.alert" class="text-center" title="Account created"
+            text="Go to the Login and sign in"></v-alert>
         <span class="text-h3 ">Register</span>
         <div class="flex-column">
             <label>Your Name</label>
@@ -74,7 +78,7 @@ import { getDatabase, ref, set } from "firebase/database";
 import { base } from "../../main";
 import { store } from "../../state";
 import { FirebaseError } from "firebase/app";
-// Завтра:Сделать профиль  
+
 export default defineComponent({
     data() {
         return {
@@ -86,8 +90,12 @@ export default defineComponent({
                 alert: false,
                 message: "",
             },
+            success: {
+                alert: false
+            }
         };
     },
+
     methods: {
         async writeUserData(userId: string, name: string, email: string, imageUrl: string) {
             const db = getDatabase();
@@ -129,9 +137,7 @@ export default defineComponent({
                 // Вызываем функцию для записи данных пользователя в базу данных
                 this.writeUserData(userId, this.name, this.email, "");
 
-                // Перенаправляем пользователя на главную страницу после успешной регистрации
-                store.commit("setAccount", { boolean: true, rememberme: false });
-                this.$router.push({ name: "Home" });
+                this.name = "", this.email = "", this.password = "", this.repeatPassword = ""
             } catch (error: any) {
                 const errorCode = error.code;
                 let errorMessage = "";
@@ -150,6 +156,11 @@ export default defineComponent({
                 }
                 store.commit('showAlert', { boolean: true, message: errorMessage });
                 console.error("Error:", error.message);
+            } finally {
+                this.success.alert = true;
+                setTimeout(() => {
+                    this.success.alert = false;
+                }, 4000);
             }
         },
         goToSignUp() {

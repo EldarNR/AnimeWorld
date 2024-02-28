@@ -5,7 +5,7 @@
             <span>Comment</span>
             <v-text-field v-model="post.name" label="Your name"></v-text-field>
             <v-textarea counter v-model="post.text" :rules="rules" append-icon="mdi-send" variant="filled"
-                clear-icon="mdi-close-circle" clearable label="Message" type="text" @click:append="sendMessage"
+                clear-icon="mdi-close-circle" clearable label="Message" type="text" @click:append="getData"
                 @click:clear="clearMessage"></v-textarea>
         </section>
     </v-lazy>
@@ -14,8 +14,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { store } from '../../state';
-
-
+import { getDatabase, ref as dbRef, onChildAdded, set } from "firebase/database";
+import { getFirestore, collection, onSnapshot } from 'firebase/firestore';
 
 export default defineComponent({
     data() {
@@ -36,6 +36,22 @@ export default defineComponent({
         id: Number
     },
 
+    setup() {
+        const database = getFirestore();
+        const commentsCollectionRef = collection(database, 'comment');
+        function getData() {
+            onSnapshot(commentsCollectionRef, (snapshot) => {
+                snapshot.forEach((doc) => {
+                    const commentData = doc.data().comment;
+                    console.log(commentData);
+                    // Здесь вы можете выполнить любую другую логику с данными комментария
+                });
+            });
+        }
+
+        return { getData }
+    },
+
     methods: {
         sendMessage() {
             store.dispatch("addComment", { id: this.id, comment: { user: this.post.name, text: this.post.text } });
@@ -43,8 +59,6 @@ export default defineComponent({
         clearMessage() {
             this.post.text = '';
         },
-
     }
 });
 </script>
-  

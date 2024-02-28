@@ -33,30 +33,7 @@ export default defineComponent({
         const store = useStore();
 
         const getComment = computed(() => store.getters.getComments);
-        // const getPage = computed(() => store.getters.showIdPage);
-
-        // Попробовал сохранить коментарии в стейт ничего не вышло,надо бэкенд и сервер для хранение коментарий
-        // const filteredComments = computed(() => {
-        //     if (getComment.value) {
-        //         return getComment.value.filter((comment: { id: number }) => comment.id === idPage);
-        //     } else {
-        //         return [];
-        //     }
-        // });
-
-        // watchEffect(() => {
-        //     // Используем watchEffect для автоматического отслеживания изменений в зависимостях
-        //     if (getComment.value) {
-        //         const foundComment = getComment.value.find((comment: { id: number }) => comment.id === idPage);
-        //         if (foundComment && foundComment.id === getPage.value) {
-        //             showComment.value = true;
-        //             console.log("Найдено!");
-        //         } else {
-        //             showComment.value = false;
-        //             console.log("Не найдено!");
-        //         }
-        //     }
-        // });
+        
 
         return { getComment };
     }
