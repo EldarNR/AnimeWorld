@@ -32,7 +32,7 @@ export default {
     },
     setup() {
         const store = useStore();
-        const showBtn = computed(() => store.getters.getAccount);
+        const showBtn = computed(() => store.getters.getAccount.input);
 
         return { showBtn }
     },

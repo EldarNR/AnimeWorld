@@ -53,6 +53,7 @@ export default {
             store.commit("setAccount", { boolean: false, rememberme: false });
             const auth = getAuth();
             signOut(auth).then(() => {
+                this.$forceUpdate();
                 console.log("Вы вышли из аккаунта")
             }).catch((error) => {
                 console.log("ошибка", error)

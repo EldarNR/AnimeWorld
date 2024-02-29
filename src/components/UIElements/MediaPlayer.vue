@@ -63,12 +63,22 @@ export default defineComponent({
     /* 16:9 aspect ratio */
 }
 
-@media (min-width: 600px) {
+@media only screen and (max-width: 400px) {
 
     /* xs */
     .video-container iframe {
-        width: 100%;
-        height: 60dvh;
+
+        height: 100dvh;
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+
+    /* xs */
+    .video-container iframe {
+
+        height: 50dvh;
     }
 }
 
