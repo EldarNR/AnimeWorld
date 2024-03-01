@@ -45,9 +45,7 @@ export default defineComponent({
         await addDoc(pageCommentsRef, {
           name: this.post.name,
           text: this.post.text,
-          like: 0,
-          dislike: 0,
-          timestamp: new Date(1995, 11, 17),
+          timestamp: new Date(),
         });
 
         console.log('Комментарий успешно добавлен');
