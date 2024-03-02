@@ -76,39 +76,37 @@ export default defineComponent({
             }));
         };
 
-        // Функция для добавления лайка
-        const addLike = async (comment: Comment) => {
+        const addLike = async (clickedComment: Comment) => {
             try {
-                await Promise.all(comments.value.map(async comment => {
-                    console.log('Comment ID:', comment.id);
+                const likeCollection = collection(database, `pages/${props.id}/comments/${clickedComment.id}/likes`);
 
-                    console.log('Comment ID:', comment.id); // Добавляем эту строку для проверки
-                    const likeCollection = collection(database, `pages/${props.id}/comments/${comment.id}/likes`);
+                // Проверяем, есть ли уже лайк от данного пользователя
+                const querySnapshot = await getDocs(likeCollection);
+                const likes = querySnapshot.docs.map(doc => doc.data().userUid);
 
-                    // Загружаем лайки для данного комментария
-                    const querySnapshot = await getDocs(likeCollection);
-                    const likes = querySnapshot.docs.map(doc => doc.data().userUid);
+                if (!likes.includes(user?.uid)) {
+                    // Если нет, то добавляем новый лайк
+                    await addDoc(likeCollection, {
+                        userUid: user?.uid,
+                        like: true
+                    });
+                    console.log(`Пользователь ${user?.uid} добавил лайк!`);
 
-                    // Проверяем, есть ли уже лайк от данного пользователя
-                    if (!likes.includes(user?.uid)) {
-                        // Если нет, то добавляем новый лайк
-                        await addDoc(likeCollection, {
-                            userUid: user?.uid,
-                            like: true
-                        });
-                        console.log(`Пользователь ${user?.uid} добавил лайк!`);
-                        // После добавления лайка загружаем обновленные данные
-                        await loadLikes();
-                    } else {
-                        console.log(`Пользователь ${user?.uid} уже поставил лайк этому комментарию!`);
-                    }
-                }))
+                    // После добавления лайка обновляем данные только для кликнутого комментария
+                    const updatedCommentLikes = likes.concat(user?.uid);
+                    clickedComment.likes = updatedCommentLikes;
+                    console.log(clickedComment, "clicked")
+                    // Обновляем отображение лайков только для кликнутого комментария
+
+                } else {
+                    console.log(`Пользователь ${user?.uid} уже поставил лайк этому комментарию!`);
+                }
             } catch (error) {
                 alert.value = true;
                 setTimeout(() => { alert.value = false }, 3000);
                 console.error("Ошибка при добавлении лайка:", error);
             }
-        };
+        }
 
         watch(() => props.id, async () => {
             await loadComments();

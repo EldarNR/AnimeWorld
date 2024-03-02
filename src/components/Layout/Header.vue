@@ -3,7 +3,7 @@
         <v-row class="box d-flex align-center justify-space-evenly">
 
             <v-col cols="12" :xs="12" sm="6" md="6" lg="6" xl="6" xxl="6" offset-sm="12" variant="outlined"
-                class="mb-5 pa-4 text-center" color="deep-purple-lighten-3" elevation="18">
+                class="mb-5 pa-4 text-center" elevation="18">
                 <h2 class="text-h6 text-sm-h3 text-md-h4 text-lg-h2 text-xl-h1 ">Anime
                     World</h2>
                 <div class="ml-3 text-sm-caption text-md-body-1 text-lg-h5 text-xl-h3 mr-3 mb-3">Your

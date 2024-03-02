@@ -23,7 +23,7 @@
         </v-menu>
 
 
-        <div class="video-container mt-4" align="center">
+        <div class="video-container mt-4" align="center" :key="id">
 
             <iframe :src="`https://www.anilibria.tv/public/iframe.php?id=${id}`" type="text/html" width="auto" height="auto"
                 frameborder="0" allowfullscreen></iframe>
@@ -33,7 +33,8 @@
 
   
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { Franchise } from "../typification/List";
 export default defineComponent({
@@ -47,84 +48,67 @@ export default defineComponent({
             required: true,
         }
     },
-    setup() {
+    setup(props) {
         const store = useStore();
         const getThem = computed(() => store.getters.backgroundColor);
+        const route = useRoute();
+        const forceUpdateTrigger = ref(false);
 
-        return { getThem }
+        watch(() => props.id, async () => {
+            // Измените значение переменной, чтобы вызвать перерендеринг
+            forceUpdateTrigger.value = !forceUpdateTrigger.value;
+        }, { immediate: true });
+
+
+        return { getThem, forceUpdateTrigger }
     }
 });
 </script>
 <style scoped>
 .video-container {
     position: relative;
+    margin: 0px;
+    padding: 0px;
     width: 100%;
 
     /* 16:9 aspect ratio */
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (min-width: 400px) {
 
     /* xs */
     .video-container iframe {
-
-        height: 100dvh;
+        width: 400px;
+        height: 500px;
     }
 }
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 600px) {
 
     /* xs */
     .video-container iframe {
-
-        height: 50dvh;
+        width: 100%;
+        height: 600px;
     }
 }
 
 /* Дополнительные стили для различных разрешений */
-@media (min-width: 960px) {
+@media only screen and (min-width: 960px) {
 
     /* sm */
     .video-container iframe {
         width: 100%;
-        height: 40dvh;
+        height: 600px;
     }
 }
 
-@media (min-width: 1280px) {
+@media only screen and (min-width: 1280px) {
 
     /* md */
     .video-container iframe {
-        width: 90%;
-        height: 40dvh;
-    }
-}
-
-@media (min-width: 1920px) {
-
-    /* lg */
-    .video-container iframe {
-        width: 80%;
-        height: 50dvh;
-    }
-}
-
-@media (min-width: 2560) {
-
-    /* xl */
-    .video-container iframe {
-        width: 10%;
-        height: 50dvh;
-    }
-}
-
-@media (min-width: 2561) {
-
-    /* xll */
-    .video-container iframe {
-        width: 50%;
-        height: 40dvh;
+        width: 100%;
+        height: 600px;
     }
 }
 </style>
