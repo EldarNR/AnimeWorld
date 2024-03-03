@@ -12,8 +12,9 @@
                     <div class="text-caption float-right">{{ comment.date }}</div>
                 </v-list-item>
                 <span justify="center">
-                    <v-btn class="ma-2" variant="text" icon="mdi-heart" color="red" @click="addLike"></v-btn> {{
-                        comment.likes.length }}
+                    <v-btn class="ma-2" variant="text" icon="mdi-heart" color="red" @click="addLike(comment)"></v-btn>
+                    {{
+            comment.likes.length }}
                 </span>
             </v-card>
         </div>
@@ -23,7 +24,7 @@
         </div>
     </article>
 </template>
-  
+
 <script lang="ts">
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, doc, getDocs, getFirestore, query, updateDoc } from "firebase/firestore";
@@ -68,15 +69,20 @@ export default defineComponent({
 
         // Функция для загрузки лайков для каждого комментария
         const loadLikes = async () => {
-            await Promise.all(comments.value.map(async comment => {
-                console.log('Comment ID:', comment.id); // Добавляем эту строку для проверки
-                const likeCollection = collection(database, `pages/${props.id}/comments/${comment.id}/likes`);
-                const querySnapshot = await getDocs(likeCollection);
-                comment.likes = querySnapshot.docs.map(doc => doc.data());
-            }));
+            try {
+                await Promise.all(comments.value.map(async comment => {
+                    console.log('Comment ID:', comment.id); // Добавляем эту строку для проверки
+                    const likeCollection = collection(database, `pages/${props.id}/comments/${comment.id}/likes`);
+                    const querySnapshot = await getDocs(likeCollection);
+                    comment.likes = querySnapshot.docs.map(doc => doc.data());
+                }));
+            } catch (error) {
+                console.error('Error loading likes:', error);
+            }
         };
 
         const addLike = async (clickedComment: Comment) => {
+            console.log(clickedComment, "clicked")
             try {
                 const likeCollection = collection(database, `pages/${props.id}/comments/${clickedComment.id}/likes`);
 
@@ -95,8 +101,6 @@ export default defineComponent({
                     // После добавления лайка обновляем данные только для кликнутого комментария
                     const updatedCommentLikes = likes.concat(user?.uid);
                     clickedComment.likes = updatedCommentLikes;
-                    console.log(clickedComment, "clicked")
-                    // Обновляем отображение лайков только для кликнутого комментария
 
                 } else {
                     console.log(`Пользователь ${user?.uid} уже поставил лайк этому комментарию!`);

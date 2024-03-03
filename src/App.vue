@@ -16,6 +16,7 @@ import { useStore } from 'vuex';
 
 import Navbar from './components/Layout/Navbar.vue';
 import Footer from './components/Layout/Footer.vue';
+import { store } from './state';
 export default defineComponent({
   setup() {
     const store = useStore();
@@ -23,11 +24,8 @@ export default defineComponent({
     const backgroundColor = computed(() => {
       return store.getters.backgroundColor;
     });
-
-
     return {
       backgroundColor,
-
       Navbar,
       Footer
 
@@ -49,4 +47,3 @@ a {
 
 }
 </style>
-

@@ -175,31 +175,39 @@ export const api = createStore({
     },
 
     async fetchRandom() {
+      const ERROR_FETCHING_DATA = "Error fetching data:";
+      const REQUEST_RECEIVED = "Request Received";
+
       try {
         const responseGenres = await axios.get(base + "random");
         store.dispatch("randomAnime", responseGenres.data);
       } catch (error: any) {
-        console.error("Error fetching data:", error);
+        // Use a more specific error type if possible
+        console.error(ERROR_FETCHING_DATA, error);
       } finally {
         store.dispatch("getRequestRandom", true);
-        console.log("Request Received");
+        console.log(REQUEST_RECEIVED);
       }
     },
 
     async getAccount({ state }) {
+      const ERROR_IN_GET_ACCOUNT = "Error in getAccount:";
       try {
         const db = getDatabase();
         const starCountRef = ref(db, "users/" + `${state.accountUID}`);
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
-          store.commit("setUser", {
-            name: data.username,
-            email: data.email,
-            picture: data.picture,
-          });
+          if (data) {
+            // Check that data is defined
+            store.commit("setUser", {
+              name: data?.username, // Use optional chaining
+              email: data?.email, // Use optional chaining
+              picture: data?.picture, // Use optional chaining
+            });
+          }
         });
       } catch (error) {
-        console.error("Error in getAccount:", error);
+        console.error(ERROR_IN_GET_ACCOUNT, error);
       }
     },
 

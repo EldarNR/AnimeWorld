@@ -61,7 +61,7 @@
 
 
         <span class="text-caption text-left">
-            - Пароль должен быть не менее 5 - букв, <br>
+            - Пароль должен быть не менее 5 - букв <br>
             - Пароль должен быть не должно быть символов
         </span>
 
@@ -169,4 +169,3 @@ export default defineComponent({
     }
 })
 </script>
-

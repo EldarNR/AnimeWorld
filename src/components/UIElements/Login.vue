@@ -33,7 +33,7 @@
 
         <div class="flex-row">
             <div>
-                <input @click="remebmer = true" type="radio">
+                <input @click="remember = !remember" type="radio">
                 <label> Remember me </label>
             </div>
             <span class="span">Forgot password?</span>
@@ -54,45 +54,47 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-
 import { base } from "../../main"
 import { store } from "../../state";
 import { api } from "../../state/api";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+const EMPTY_FIELDS_ERROR = "Email or password cannot be empty";
+const AUTH_ERROR = "Invalid email or password";
 
 export default defineComponent({
     data() {
         return {
             email: "" as string,
             password: "" as string,
-            remebmer: false,
+            remember: false,
         };
     },
 
     methods: {
         async signIn() {
             if (!this.email || !this.password) {
-                store.commit('showAlert', { boolean: true, message: "Не верный email или пароль" });
-                return; // Прерываем выполнение метода, если email или password пустые
+                store.commit('showAlert', { boolean: true, message: EMPTY_FIELDS_ERROR });
+                return; // Stop method execution if email or password are empty
             }
 
-            let user; // Объявляем переменную user здесь
+            let user; // Declare user variable here
 
             try {
                 const auth = getAuth(base);
                 const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
-                user = auth.currentUser; // Присваиваем значение текущего пользователя переменной user
+                user = auth.currentUser; // Assign the current user to the user variable
 
                 this.$router.push({ name: "Home" });
-                // Успешный вход в систему, выполните действия, например, перенаправьте пользователя на другую страницу
-            } catch (error: any) {
-                store.commit('showAlert', { boolean: true, message: "Не верный email или пароль" });
+                // Successful login, perform actions, for example, redirect the user to another page
+            } catch (error: any) { // Use a more specific error type if possible
+                store.commit('showAlert', { boolean: true, message: AUTH_ERROR });
                 console.error("Error:", error.message);
             } finally {
-                store.commit("setAccount", { boolean: true, rememberme: false });
+                store.commit("setAccount", { boolean: true, rememberme: this.remember });
 
-                if (user) { // Проверяем, что user определен
-                    api.commit("setUid", user.uid); // Используем свойство uid для получения идентификатора пользователя
+                if (user) { // Check that user is defined
+                    api.commit("setUid", user?.uid); // Use the uid property to get the user identifier
                 }
             }
         }

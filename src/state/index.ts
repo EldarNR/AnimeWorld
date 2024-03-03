@@ -28,8 +28,6 @@ export const store = createStore({
       youtube: false,
     },
 
-    favoriteList: [] as IdFavorite[],
-
     randomAnime: {},
 
     comment: [] as Comment[],
@@ -107,21 +105,6 @@ export const store = createStore({
     setAccount(state, account: { boolean: boolean; rememberme: boolean }) {
       state.account.input = account.boolean;
       state.account.rememberme = account.rememberme;
-
-      if (account.rememberme) {
-        // Если rememberme равен true, сохраняем состояние в локальном хранилище
-        localStorage.setItem("rememberme", JSON.stringify(account.rememberme));
-      } else {
-        // Если rememberme равен false, удаляем состояние из локального хранилища
-        localStorage.removeItem("rememberme");
-      }
-    },
-    AddAnimeFav(state, data) {
-      state.favoriteList.push(data);
-      localStorage.setItem("saveList", data);
-    },
-    filterId(state, item) {
-      state.favoriteList = item;
     },
     BlogYoutube(state, list) {
       state.youtube = list;
@@ -196,12 +179,6 @@ export const store = createStore({
     getIdAnime({ commit }, data) {
       commit("AddAnimeFav", data);
     },
-    filterFavorite({ commit, state }, idToRemove) {
-      const updatedList = state.favoriteList.filter(
-        (item) => item.id !== idToRemove
-      );
-      commit("filterId", updatedList);
-    },
   },
   getters: {
     getAccount(state) {
@@ -212,9 +189,6 @@ export const store = createStore({
     },
     backgroundColorBollen(state) {
       return state.backgroundColor;
-    },
-    getFavoriteAnime(state) {
-      return state.favoriteList;
     },
     getListAnime(state) {
       return state.list;

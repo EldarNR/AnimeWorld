@@ -1,6 +1,5 @@
 <template>
-    <v-btn v-if="showBtn" color="orange-lighten-2"
-        @click="getId({ id: post.id, title: post.names.ru, description: post.description, img: post.posters.original.url })">
+    <v-btn color="orange-lighten-2" @click="getId(post)">
         В избранное <v-icon>mdi-bookmark-outline</v-icon>
     </v-btn>
 </template>
@@ -8,7 +7,12 @@
 <script lang="ts">
 import { useStore } from 'vuex';
 import { store } from '../../state';
-import { computed } from 'vue';
+import { PropType, computed } from 'vue';
+import { getDatabase } from 'firebase/database';
+import { addDoc, Firestore, collection, getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { base } from '../../main';
+import { getDocs } from 'firebase/firestore';
 
 interface CardData {
     id: number;
@@ -26,19 +30,25 @@ interface CardData {
 export default {
     props: {
         post: {
-            type: Object as () => CardData,
+            type: Object as PropType<CardData>,
             required: true
         }
     },
-    setup() {
+    async setup() {
         const store = useStore();
-        const showBtn = computed(() => store.getters.getAccount.input);
-
+        const showBtn = computed(() => store.getters.isLoggedIn);
+        console.log(showBtn)
         return { showBtn }
     },
     methods: {
-        getId({ id, title, description, img }: { id: number; title: string; description: string; img: string }) {
-            store.dispatch("getIdAnime", { id, title, description, img });
+        async getId(post: CardData) {
+            const auth = getAuth(base);
+            const firestore = getFirestore();
+            const userCollection = collection(firestore, `users/${auth.currentUser?.uid}/likes`);
+            const { id, names, description, posters } = post;
+            const title = names.ru;
+            const img = posters.original.url;
+            await addDoc(userCollection, { id, title, description, img });
             console.log({ id, title, description, img });
         },
     }
