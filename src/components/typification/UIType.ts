@@ -5,7 +5,9 @@ export interface Comment {
 }
 
 export interface IdFavorite {
-  i: number;
-  id: number;
-  data: number;
+  uid: string;
+  id: string;
+  title: string;
+  discription: string;
+  picture: string;
 }

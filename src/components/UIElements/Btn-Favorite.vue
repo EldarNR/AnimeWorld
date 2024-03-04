@@ -34,12 +34,6 @@ export default {
             required: true
         }
     },
-    async setup() {
-        const store = useStore();
-        const showBtn = computed(() => store.getters.isLoggedIn);
-        console.log(showBtn)
-        return { showBtn }
-    },
     methods: {
         async getId(post: CardData) {
             const auth = getAuth(base);

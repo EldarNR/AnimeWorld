@@ -3,8 +3,19 @@ import { createStore } from "vuex";
 import { getDatabase, ref, onValue } from "firebase/database";
 import axios from "axios";
 import { store } from ".";
-
-const base: string = "https://api.anilibria.tv/v3/title/";
+import { getAuth } from "firebase/auth";
+import { base } from "@/main";
+import {
+  collection,
+  deleteDoc,
+  deleteField,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  updateDoc,
+} from "firebase/firestore";
+const baseApi: string = "https://api.anilibria.tv/v3/title/";
 
 export const api = createStore({
   state: {
@@ -70,7 +81,7 @@ export const api = createStore({
     async fetchList({ state }) {
       try {
         const response = await axios.get(
-          base + state.api.method + state.api.params
+          baseApi + state.api.method + state.api.params
         );
         store.dispatch("getList", response);
       } catch (error) {
@@ -84,7 +95,7 @@ export const api = createStore({
     async fetchNewAnime({ state }) {
       try {
         const response = await axios.get(
-          base + state.new.method + state.new.params
+          baseApi + state.new.method + state.new.params
         );
         store.dispatch("getNewAnimeList", response);
       } catch (error) {
@@ -98,7 +109,7 @@ export const api = createStore({
     async fetchSearchAnime({ state }) {
       try {
         const response = await axios.get(
-          base +
+          baseApi +
             state.search.method +
             state.search.params +
             "&genres=" +
@@ -119,7 +130,7 @@ export const api = createStore({
     async fetchGetInfo({ state, commit }) {
       try {
         const response = await axios.get(
-          base + state.info.method + state.info.params
+          baseApi + state.info.method + state.info.params
         );
         store.dispatch("checkError", false);
         if (response.status === 200) {
@@ -179,7 +190,7 @@ export const api = createStore({
       const REQUEST_RECEIVED = "Request Received";
 
       try {
-        const responseGenres = await axios.get(base + "random");
+        const responseGenres = await axios.get(baseApi + "random");
         store.dispatch("randomAnime", responseGenres.data);
       } catch (error: any) {
         // Use a more specific error type if possible
@@ -208,6 +219,59 @@ export const api = createStore({
         });
       } catch (error) {
         console.error(ERROR_IN_GET_ACCOUNT, error);
+      }
+    },
+
+    async userCollection() {
+      const auth = getAuth(base);
+      const firestore = getFirestore();
+      const userId = auth.currentUser?.uid;
+
+      if (!userId) {
+        throw new Error("User is not logged in");
+      }
+
+      const collectionRef = collection(firestore, `users/${userId}/likes`);
+
+      try {
+        const snapshot = await getDocs(collectionRef);
+        const userFavouriteAnime = snapshot.docs.map((doc) => {
+          const data = {
+            uid: doc.id,
+            data: doc.data(),
+          };
+          return { ...data }; // Возвращаем объект с id и остальными данными
+        });
+        store.commit("AddAnimeFav", userFavouriteAnime);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        console.log("Request Received");
+        store.commit("RequestAnimeFav", true);
+      }
+    },
+
+    async deleteId({}, id: string) {
+      try {
+        const auth = getAuth(base);
+        const firestore = getFirestore();
+        const docRef = doc(
+          firestore,
+          `users/${auth.currentUser?.uid}/likes/${id}`
+        );
+
+        console.log(`Deleting document with ID: ${id}`);
+        await deleteDoc(docRef);
+        console.log(`Document with ID ${id} deleted`);
+
+        // If needed, perform an update after successful deletion (replace with actual update logic)
+        // await updateDoc(docRef, { /* updated fields */ });
+      } catch (error) {
+        console.error("Error deleting document:", error);
+      } finally {
+        // Consider placing `api.dispatch("userCollection")` outside the `try/catch` block
+        // based on your intended logic.
+        api.dispatch("userCollection");
       }
     },
 

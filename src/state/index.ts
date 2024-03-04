@@ -14,6 +14,7 @@ export const store = createStore({
         email: undefined as unknown,
         picture: undefined as unknown,
       },
+      favourite: {} as IdFavorite,
     },
     list: {},
     newlist: {},
@@ -26,6 +27,7 @@ export const store = createStore({
       newAnimeList: false,
       randomAnime: false,
       youtube: false,
+      favourite: false,
     },
 
     randomAnime: {},
@@ -122,6 +124,13 @@ export const store = createStore({
       state.account.information.name = user.name;
       state.account.information.email = user.email;
       state.account.information.picture = user.picture;
+    },
+    AddAnimeFav(state, data: IdFavorite) {
+      state.account.favourite = data;
+    },
+    RequestAnimeFav(state, data: boolean) {
+      state.request.favourite = data;
+      localStorage.setItem("data", JSON.stringify(data));
     },
   },
   actions: {
@@ -243,6 +252,12 @@ export const store = createStore({
     },
     getMessageAlert(state) {
       return state.login.message;
+    },
+    getFavourite(state) {
+      return state.account.favourite;
+    },
+    getRequestFavourite(state) {
+      return state.request.favourite;
     },
   },
 });
