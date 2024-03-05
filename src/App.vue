@@ -11,18 +11,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 import Navbar from './components/Layout/Navbar.vue';
 import Footer from './components/Layout/Footer.vue';
 import { store } from './state';
+import { api } from './state/api';
 export default defineComponent({
   setup() {
     const store = useStore();
 
     const backgroundColor = computed(() => {
       return store.getters.backgroundColor;
+    });
+    
+    onMounted(() => {
+      api.dispatch("userCollection");
     });
     return {
       backgroundColor,

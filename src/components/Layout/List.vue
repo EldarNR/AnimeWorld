@@ -1,5 +1,5 @@
 <template>
-    <v-main>
+    <section id="list">
         <span class="text-h3 ">New anime</span>
 
         <v-row dense justify="center">
@@ -9,7 +9,7 @@
             </v-col>
         </v-row>
 
-    </v-main>
+    </section>
 </template>
 
 <script lang="ts">

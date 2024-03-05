@@ -57,7 +57,9 @@ import { defineComponent } from "vue";
 import { base } from "../../main"
 import { store } from "../../state";
 import { api } from "../../state/api";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getDatabase, onValue, ref } from "firebase/database";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const EMPTY_FIELDS_ERROR = "Email or password cannot be empty";
 const AUTH_ERROR = "Invalid email or password";
@@ -78,24 +80,38 @@ export default defineComponent({
                 return; // Stop method execution if email or password are empty
             }
 
-            let user; // Declare user variable here
 
             try {
                 const auth = getAuth(base);
                 const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
-                user = auth.currentUser; // Assign the current user to the user variable
+                const user = auth.currentUser; // Assign the current user to the user variable
 
-                this.$router.push({ name: "Home" });
-                // Successful login, perform actions, for example, redirect the user to another page
+                if (user) {
+                    const db = getDatabase();
+                    const starCountRef = ref(db, "users/" + `${user.uid}`);
+
+                    try {
+                        onValue(starCountRef, async (snapshot) => {
+                            const data = snapshot.val();
+                            if (data) {
+                                await updateProfile(user, { displayName: `${data.username}` });
+                                console.log("User:", userCredential);
+                                store.commit("setUser", { userUid: user.uid, user: userCredential.user.displayName, useremail: userCredential.user.email, remember: this.remember });
+                                this.$router.push({ name: "Home" });
+                            }
+                        });
+                    }
+                    catch (error: any) {
+                        console.error("Error:", error.message);
+                    }
+
+                }
+
             } catch (error: any) { // Use a more specific error type if possible
                 store.commit('showAlert', { boolean: true, message: AUTH_ERROR });
                 console.error("Error:", error.message);
             } finally {
                 store.commit("setAccount", { boolean: true, rememberme: this.remember });
-
-                if (user) { // Check that user is defined
-                    api.commit("setUid", user?.uid); // Use the uid property to get the user identifier
-                }
             }
         }
 

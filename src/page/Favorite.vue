@@ -1,8 +1,9 @@
 <template>
     <v-container>
         <span> It's my favourite anime list</span>
-        <v-row class="mt-3" v-for="item in getAnimeFavourite" :key="item.uid">
-            <v-card max-height="320px" elevation="16"
+
+        <v-row class="mt-3" v-if="getRequest">
+            <v-card max-height="320px" elevation="16" v-for="item in getAnimeFavourite" :key="item.uid"
                 class="d-flex align-center mb-3 rounded-xl pa-3 bg-blue-grey-darken-1">
 
                 <v-col cols="2" :xs="3" sm="3" md="3" lg="2">
@@ -39,6 +40,9 @@
             </v-card>
         </v-row>
 
+        <span v-else>
+            List is empty
+        </span>
     </v-container>
 </template>
 
@@ -56,11 +60,10 @@ export default {
         const store = useStore();
         const getAnimeFavourite = computed(() => store.getters.getFavourite);
         const getRequest = computed(() => store.getters.getRequestFavourite);
+        const checkError = computed(() => store.getters.getterErrorFavourite);
 
-        onMounted(() => {
-            api.dispatch("userCollection");
-        });
-        return { getAnimeFavourite, getRequest };
+
+        return { getAnimeFavourite, getRequest, checkError };
     },
     methods: {
         gotoWatch(id: number) {

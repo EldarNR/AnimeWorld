@@ -201,34 +201,13 @@ export const api = createStore({
       }
     },
 
-    async getAccount({ state }) {
-      const ERROR_IN_GET_ACCOUNT = "Error in getAccount:";
-      try {
-        const db = getDatabase();
-        const starCountRef = ref(db, "users/" + `${state.accountUID}`);
-        onValue(starCountRef, (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            // Check that data is defined
-            store.commit("setUser", {
-              name: data?.username, // Use optional chaining
-              email: data?.email, // Use optional chaining
-              picture: data?.picture, // Use optional chaining
-            });
-          }
-        });
-      } catch (error) {
-        console.error(ERROR_IN_GET_ACCOUNT, error);
-      }
-    },
-
     async userCollection() {
       const auth = getAuth(base);
       const firestore = getFirestore();
       const userId = auth.currentUser?.uid;
 
       if (!userId) {
-        throw new Error("User is not logged in");
+        store.commit("setError", true);
       }
 
       const collectionRef = collection(firestore, `users/${userId}/likes`);

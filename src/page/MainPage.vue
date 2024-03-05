@@ -9,10 +9,10 @@
         <pagination />
     </v-container>
 </template>
-    
+
 <script lang="ts">
 import { useStore } from 'vuex';
-import { computed, onMounted } from 'vue';
+import { computed, onBeforeMount, onMounted } from 'vue';
 
 import List from '../components/Layout/List.vue';
 import Header from '../components/Layout/Header.vue';
@@ -27,8 +27,7 @@ export default {
         const showListNew = computed(() => store.getters.getNewAnimeList);
         const showRequestListNewAnimeList = computed(() => store.getters.showRequestNewAnimeList);
         const getThem = computed(() => store.getters.backgroundColor)
-
-        onMounted(() => {
+        onBeforeMount(() => {
             api.dispatch("fetchRandom");
             api.dispatch('fetchNewAnime');
         });
@@ -37,4 +36,3 @@ export default {
     }
 }
 </script>
-  

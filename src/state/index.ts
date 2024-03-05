@@ -2,18 +2,15 @@ import { createStore } from "vuex";
 import { Comment, IdFavorite } from "../components/typification/UIType";
 import { computed } from "vue";
 import { api } from "./api";
+import { base } from "@/main";
+import { getAuth } from "firebase/auth";
+import { getDatabase, onValue, ref } from "firebase/database";
 
 export const store = createStore({
   state: {
     id: undefined,
     account: {
-      input: false,
-      rememberme: false,
-      information: {
-        name: "User",
-        email: undefined as unknown,
-        picture: undefined as unknown,
-      },
+      information: {},
       favourite: {} as IdFavorite,
     },
     list: {},
@@ -48,6 +45,7 @@ export const store = createStore({
     error: {
       error404: false,
       error500: false,
+      errorFavourite: false,
     },
     backgroundColor: false,
   },
@@ -104,10 +102,6 @@ export const store = createStore({
     RequestRandom(state, request) {
       state.request.randomAnime = request;
     },
-    setAccount(state, account: { boolean: boolean; rememberme: boolean }) {
-      state.account.input = account.boolean;
-      state.account.rememberme = account.rememberme;
-    },
     BlogYoutube(state, list) {
       state.youtube = list;
     },
@@ -120,17 +114,31 @@ export const store = createStore({
       await new Promise((resolve) => setTimeout(resolve, 2000));
       state.login.alert = !boolean;
     },
-    setUser(state, user: { name: string; email: string; picture?: string }) {
-      state.account.information.name = user.name;
-      state.account.information.email = user.email;
-      state.account.information.picture = user.picture;
-    },
-    AddAnimeFav(state, data: IdFavorite) {
-      state.account.favourite = data;
+    async setUser(state, user) {
+      state.account.information = user;
+      let users = user;
+
+      if (users?.remember || users?.user.remember) {
+        localStorage.setItem(
+          "saved",
+          JSON.stringify({
+            users,
+          })
+        );
+
+        console.log("Data saved");
+      } else if (!user.remember || !users?.user.remember) {
+        localStorage.removeItem("saved");
+      } else {
+        console.log("Data removed");
+      }
     },
     RequestAnimeFav(state, data: boolean) {
       state.request.favourite = data;
       localStorage.setItem("data", JSON.stringify(data));
+    },
+    setError(state, error: boolean) {
+      state.error.errorFavourite = error;
     },
   },
   actions: {
@@ -187,6 +195,20 @@ export const store = createStore({
     },
     getIdAnime({ commit }, data) {
       commit("AddAnimeFav", data);
+    },
+    getUser({ commit }) {
+      const auth = getAuth();
+      const db = getDatabase();
+      const starCountRef = ref(db, "users/" + `${auth.currentUser}`);
+      console.log(auth.currentUser?.uid);
+      try {
+        onValue(starCountRef, async (snapshot) => {
+          const data = snapshot.val();
+          console.log(data);
+        });
+      } catch (error: any) {
+        console.error("Error:", error.message);
+      }
     },
   },
   getters: {
@@ -259,6 +281,9 @@ export const store = createStore({
     getRequestFavourite(state) {
       return state.request.favourite;
     },
+    getterErrorFavourite(state) {
+      return state.error.errorFavourite;
+    },
   },
 });
 
@@ -268,12 +293,9 @@ if (savedTheme) {
   store.commit("changeBackgroundColor", savedTheme);
 }
 
-const savedAccount = localStorage.getItem("rememberme");
-if (savedAccount) {
-  store.commit("setAccount", { boolean: true });
-}
+const savedData = localStorage.getItem("saved");
 
-const saveList = localStorage.getItem("data");
-if (saveList) {
-  store.dispatch("AddAnimeFav", saveList);
+if (savedData) {
+  console.log(JSON.parse(savedData));
+  store.commit("setUser", JSON.parse(savedData));
 }

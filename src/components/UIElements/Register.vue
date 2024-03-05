@@ -97,16 +97,9 @@ export default defineComponent({
     },
 
     methods: {
-        async writeUserData(userId: string, name: string, email: string, imageUrl: string) {
-            const db = getDatabase();
-            set(ref(db, 'users/' + userId), {
-                username: name,
-                email: email,
-                profile_picture: imageUrl
-            });
-        },
+
         async register() {
-            const auth = getAuth(base);
+
 
             if (this.email === '' || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(this.email)) {
                 store.commit('showAlert', { boolean: true, message: "Email is not correct!" });
@@ -127,21 +120,22 @@ export default defineComponent({
                 store.commit('showAlert', { boolean: true, message: "Password must not contain special characters" });
                 return;
             }
-
+            const auth = getAuth();
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, this.email.toLowerCase(), this.password.toLowerCase());
                 const user = userCredential.user;
-                const userName = auth.currentUser;
                 const userId = user.uid;
 
-                // Вызываем функцию для записи данных пользователя в базу данных
-                this.writeUserData(userId, this.name, this.email, "");
 
-                this.name = "", this.email = "", this.password = "", this.repeatPassword = ""
+
+                // Успешно зарегистрировали пользователя, теперь записываем данные в базу данных
+                await this.writeUserData(userId, this.name, this.email, "");
+
+
+                console.log("User created:", userId, this.name, this.email);
             } catch (error: any) {
-                const errorCode = error.code;
                 let errorMessage = "";
-                switch (errorCode) {
+                switch (error.code) {
                     case "auth/email-already-in-use":
                         errorMessage = "Email is already in use";
                         break;
@@ -161,7 +155,21 @@ export default defineComponent({
                 setTimeout(() => {
                     this.success.alert = false;
                 }, 4000);
+
+
+                this.name = "";
+                this.email = "";
+                this.password = "";
+                this.repeatPassword = "";
             }
+        },
+        async writeUserData(userId: string, name: string, email: string, imageUrl: string) {
+            const db = getDatabase();
+            await set(ref(db, 'users/' + userId), {
+                username: name,
+                email: email,
+                profile_picture: imageUrl
+            });
         },
         goToSignUp() {
             this.$router.push({ name: 'SignUp' });
