@@ -1,12 +1,7 @@
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Anta&family=Merienda:wght@300&display=swap');
-div {
-  font-family: "Anta", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-</style>
-<div align="center">
+<div align="center" style="font-family: 'Anta', sans-serif; font-weight: 400; font-style: normal;">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anta&family=Merienda:wght@300&display=swap');
+    </style>
     <h1>Anime World</h1>
     <h3>Сайт для просмотра аниме сериалов.</h3>
     <p>Для создания данного проекта были использованы следующие технологии и инструменты:</p>
