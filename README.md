@@ -1,8 +1,7 @@
-<div align="center" style="font-family: 'Anta', sans-serif; font-weight: 400; font-style: normal;">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Anta&family=Merienda:wght@300&display=swap');
-    </style>
+<span align="center">
     <h1>Anime World</h1>
+</span>
+<span>
     <h3>Сайт для просмотра аниме сериалов.</h3>
     <p>Для создания данного проекта были использованы следующие технологии и инструменты:</p>
     <ul>
@@ -14,4 +13,4 @@
         <li><b>Vite</b> - инструмент для сборки и разработки веб-приложений, известный своей быстротой и простотой использования.</li>
     </ul>
     <p>Кроме того, для получения данных о доступных аниме сериалах используется <b>AniLibria API</b>.</p>
-</div>
+</span>
