@@ -1,9 +1,9 @@
 <template>
     <v-container fluid>
-        <v-row class="box d-flex align-center justify-space-evenly">
+        <v-row class="box d-flex align-center justify-space-evenly" :class="getBackgroundColor">
 
             <v-col cols="12" :xs="12" sm="6" md="6" lg="6" xl="6" xxl="6" offset-sm="12" variant="outlined"
-                class="mb-5 pa-4 text-center" elevation="18">
+                color="white" class="mb-5 pa-4 text-center" elevation="18">
                 <h2 class="text-h6 text-sm-h3 text-md-h4 text-lg-h2 text-xl-h1 ">Anime
                     World</h2>
                 <div class="ml-3 text-sm-caption text-md-body-1 text-lg-h5 text-xl-h3 mr-3 mb-3">Your
@@ -17,14 +17,14 @@
 
                 <CardRandom :anim="anim" :class="getBackgroundColor" v-if="request" />
 
-                <v-skeleton-loader :class="getBackgroundColor" :elevation="8" class="mx-auto border" max-width="300"
+                <v-skeleton-loader :class="getBackgroundColor" :elevation="8" class="mx-auto border" max-width="350"
                     type="image, article" v-else></v-skeleton-loader>
             </v-col>
 
         </v-row>
     </v-container>
 </template>
-  
+
 <script lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
@@ -44,7 +44,7 @@ export default {
 
 }
 </script>
-  
+
 <style scoped>
 .box {
     height: 100%;

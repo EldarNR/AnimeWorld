@@ -11,7 +11,7 @@
 
                 <modalSearch />
 
-                <v-btn icon v-if="showUser" @click="goToFavourite">
+                <v-btn icon @click="goToFavourite">
                     <v-icon>mdi-heart</v-icon>
                 </v-btn>
 
@@ -48,7 +48,7 @@
 
                     </v-list-item>
                     <v-list-item value="content">
-                        <v-btn icon v-if="showUser" @click="goToFavourite">
+                        <v-btn icon @click="goToFavourite">
                             <v-icon>mdi-heart</v-icon>
                         </v-btn>
 
@@ -73,7 +73,7 @@
         </div>
     </div>
 </template>
-  
+
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from 'vue';
 import Switch from "../UIElements/Switch.vue";
@@ -90,11 +90,10 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const getThem = computed(() => store.getters.backgroundColor);
-        const showUser = computed(() => store.getters.getAccount.input);
 
 
         const drawer = ref(false);
-        return { drawer, getThem, showUser };
+        return { drawer, getThem, };
     },
     methods: {
         goToFavourite() {
@@ -104,4 +103,3 @@ export default defineComponent({
 });
 
 </script>
-  

@@ -1,13 +1,13 @@
 <template>
     <v-list-item class="mx-auto d-flex flex-column align-start justify-center ">
-        <div v-if="userInAccount.information.user || userInAccount.information.users.user" class="d-flex align-center">
+        <div v-if="userInAccount.information.user" class="d-flex align-center">
             <v-menu>
                 <template v-slot:activator="{ props }">
                     <v-list id="user" v-if="userInAccount" class="pl-1 pr-2 my-auto" :class="changeColor" v-bind="props"
                         style="cursor: pointer">
                         <v-avatar color="grey-darken-3"
                             image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"></v-avatar>
-                        {{ userInAccount.information.user || userInAccount.information.users.user }} </v-list>
+                        {{ userInAccount.information.user }} </v-list>
                 </template>
 
                 <v-list align="center">
@@ -51,11 +51,10 @@ export default {
             this.$router.push({ name: "Login" });
         },
         Logout() {
-            store.commit("setAccount", { boolean: false, rememberme: false });
             const auth = getAuth();
             signOut(auth).then(() => {
                 console.log("Вы вышли из аккаунта")
-                store.commit("setUser", {});
+                store.commit("setUser", { remember: false });
             }).catch((error) => {
                 console.log("ошибка", error)
             });

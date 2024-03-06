@@ -114,23 +114,16 @@ export const store = createStore({
       await new Promise((resolve) => setTimeout(resolve, 2000));
       state.login.alert = !boolean;
     },
-    async setUser(state, user) {
+    async setUser(
+      state,
+      user: { name: string; remember: boolean; email: string; userUID: string }
+    ) {
       state.account.information = user;
       let users = user;
-
-      if (users?.remember || users?.user.remember) {
-        localStorage.setItem(
-          "saved",
-          JSON.stringify({
-            users,
-          })
-        );
-
-        console.log("Data saved");
-      } else if (!user.remember || !users?.user.remember) {
-        localStorage.removeItem("saved");
+      if (users.remember) {
+        localStorage.setItem("saved", JSON.stringify(user));
       } else {
-        console.log("Data removed");
+        localStorage.removeItem("saved");
       }
     },
     RequestAnimeFav(state, data: boolean) {
@@ -139,6 +132,9 @@ export const store = createStore({
     },
     setError(state, error: boolean) {
       state.error.errorFavourite = error;
+    },
+    AddAnimeFav(state, data: IdFavorite) {
+      state.account.favourite = data;
     },
   },
   actions: {
@@ -196,19 +192,8 @@ export const store = createStore({
     getIdAnime({ commit }, data) {
       commit("AddAnimeFav", data);
     },
-    getUser({ commit }) {
-      const auth = getAuth();
-      const db = getDatabase();
-      const starCountRef = ref(db, "users/" + `${auth.currentUser}`);
-      console.log(auth.currentUser?.uid);
-      try {
-        onValue(starCountRef, async (snapshot) => {
-          const data = snapshot.val();
-          console.log(data);
-        });
-      } catch (error: any) {
-        console.error("Error:", error.message);
-      }
+    getUser({ commit }, user) {
+      commit("setUser", user);
     },
   },
   getters: {
@@ -296,6 +281,5 @@ if (savedTheme) {
 const savedData = localStorage.getItem("saved");
 
 if (savedData) {
-  console.log(JSON.parse(savedData));
-  store.commit("setUser", JSON.parse(savedData));
+  store.dispatch("getUser", JSON.parse(savedData));
 }

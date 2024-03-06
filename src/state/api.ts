@@ -202,15 +202,14 @@ export const api = createStore({
     },
 
     async userCollection() {
-      const auth = getAuth(base);
       const firestore = getFirestore();
-      const userId = auth.currentUser?.uid;
+      const userId = getAuth().currentUser;
 
       if (!userId) {
-        store.commit("setError", true);
+        console.log("User not found", userId);
       }
-
-      const collectionRef = collection(firestore, `users/${userId}/likes`);
+      console.log("works", userId);
+      const collectionRef = collection(firestore, `users/${userId?.uid}/likes`);
 
       try {
         const snapshot = await getDocs(collectionRef);
@@ -221,7 +220,7 @@ export const api = createStore({
           };
           return { ...data }; // Возвращаем объект с id и остальными данными
         });
-        store.commit("AddAnimeFav", userFavouriteAnime);
+        store.dispatch("getIdAnime", userFavouriteAnime);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="contai">
         <span> It's my favourite anime list</span>
 
         <v-row class="mt-3" v-if="getRequest">
@@ -54,6 +54,7 @@ import { store } from '../state'
 import { getAuth } from 'firebase/auth'
 import { collection, getFirestore } from 'firebase/firestore'
 import { api } from '../state/api'
+import { watch } from 'vue'
 
 export default {
     setup() {
@@ -62,6 +63,9 @@ export default {
         const getRequest = computed(() => store.getters.getRequestFavourite);
         const checkError = computed(() => store.getters.getterErrorFavourite);
 
+        onMounted(() => {
+            api.dispatch("userCollection");
+        });
 
         return { getAnimeFavourite, getRequest, checkError };
     },
@@ -71,13 +75,16 @@ export default {
         },
         deleatId(id: number) {
             api.dispatch("deleteId", id)
-            console.log(id);
         }
     }
 }
 </script>
 
 <style scoped>
+.contai {
+    height: 87dvh;
+}
+
 .noselect {
     width: 150px;
     height: 50px;

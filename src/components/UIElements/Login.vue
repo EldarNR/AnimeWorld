@@ -110,8 +110,6 @@ export default defineComponent({
             } catch (error: any) { // Use a more specific error type if possible
                 store.commit('showAlert', { boolean: true, message: AUTH_ERROR });
                 console.error("Error:", error.message);
-            } finally {
-                store.commit("setAccount", { boolean: true, rememberme: this.remember });
             }
         }
 
