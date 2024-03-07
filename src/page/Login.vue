@@ -3,9 +3,9 @@
         <v-card class="mx-auto px-6 py-8" max-width="344">
 
             <v-alert v-if="getAlert" density="compact" type="warning" title="Ошибка!" :text="getAlertMessage"></v-alert>
-            <div class="tab-container" >
-                <button class="tab tab--1" @click="switchs = true">Sign in</button>
-                <button class="tab tab--2" @click="switchs = false">Register</button>
+            <div class="tab-container">
+                <button class="tab tab--1 " @click="switchs = true">Войти</button>
+                <button class="tab tab--2" @click="switchs = false">Регистрация</button>
                 <div class="indicator" :style="{ left: switchs ? '2px' : 'calc(50% - 2px)' }"></div>
             </div>
 

@@ -4,12 +4,12 @@
 
             <v-col cols="12" :xs="12" sm="6" md="6" lg="6" xl="6" xxl="6" offset-sm="12" variant="outlined"
                 color="white" class="mb-5 pa-4 text-center" elevation="18">
-                <h2 class="text-h6 text-sm-h3 text-md-h4 text-lg-h2 text-xl-h1 ">Anime
+                <h2 class="text-h6 text-sm-h3 text-md-h4 text-lg-h2 text-xl-h1 text-xxl-h1 ">Anime
                     World</h2>
-                <div class="ml-3 text-sm-caption text-md-body-1 text-lg-h5 text-xl-h3 mr-3 mb-3">Your
-                    favorite anime
-                    is
-                    here!</div>
+                <div class="ml-3 text-sm-caption text-md-body-1 text-lg-h5 text-xl-h3 mr-3 mb-3">Ваш
+                    любимое аниме
+
+                    здесь!</div>
             </v-col>
 
             <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6" xll="6" offset-sm="12" class="mt-1 mb-1 text-center">

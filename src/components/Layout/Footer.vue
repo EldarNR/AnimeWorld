@@ -1,7 +1,7 @@
 <template>
-    <v-footer class="d-flex flex-column">
+    <v-footer class="d-flex flex-column footers">
         <div class="d-flex w-50 align-center px-4">
-            <strong class="text-caption">Get connected with us on social networks!</strong>
+            <strong class="text-caption">Присоединяйтесь к нам в социальных сетях!</strong>
 
             <v-spacer></v-spacer>
 
@@ -35,9 +35,8 @@ export default {
 
 }
 
-footer {
+.footers {
     width: 100dvw;
-    height: 300px;
 }
 
 text {

@@ -1,9 +1,10 @@
 <template>
     <section id="schedule">
-        <span class="text-title text-sm-body-2 text-md-h5 text-lg-h4 text-xl-h5 text-xxl-h4">Anime World Presents <br>
+        <span class="text-title text-sm-body-2 text-md-h5 text-lg-h4 text-xl-h5 text-xxl-h4">Anime World - Представляет
+            <br>
         </span>
         <span>
-            Episode Schedule
+            Расписание эпизодов
         </span>
         <div class="d-flex align-center text-body-1" align="center">
             <v-chip-group>
@@ -43,13 +44,13 @@ export default defineComponent({
     data() {
         return {
             days: [
-                { id: 0, day: "Monday" },
-                { id: 1, day: "Tuesday" },
-                { id: 2, day: "Wednesday" },
-                { id: 3, day: "Thursday" },
-                { id: 4, day: "Friday" },
-                { id: 5, day: "Saturday" },
-                { id: 6, day: "Sunday" }
+                { id: 0, day: "Понедельник" },
+                { id: 1, day: "Вторник" },
+                { id: 2, day: "Cреда" },
+                { id: 3, day: "Четверг" },
+                { id: 4, day: "Пятница" },
+                { id: 5, day: "Суббота" },
+                { id: 6, day: "Воскресенье" }
             ],
         };
     },

@@ -1,6 +1,6 @@
 <template>
     <v-container class="contai">
-        <span> It's my favourite anime list</span>
+        <span> Список аниме, добавленных в избранное</span>
 
         <v-row class="mt-3" v-if="getRequest">
             <v-card max-height="320px" elevation="16" v-for="item in getAnimeFavourite" :key="item.uid"
@@ -21,7 +21,7 @@
                     </v-card-item>
                 </v-col>
                 <v-col cols="2">
-                    <button @click="deleatId(item.uid)" class="noselect"><span class="text">Delete</span><span
+                    <button @click="deleatId(item.uid)" class="noselect"><span class="text">Удалить</span><span
                             class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <path
@@ -30,7 +30,7 @@
                             </svg></span></button>
 
                     <br />
-                    <button @click="gotoWatch(item.data.id)" class="buttonTogo"><span class="text">Watch</span><span
+                    <button @click="gotoWatch(item.data.id)" class="buttonTogo"><span class="text">Смотреть</span><span
                             class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <title>play</title>
@@ -41,7 +41,8 @@
         </v-row>
 
         <span v-else>
-            List is empty
+            <br />
+            Список пуст...
         </span>
     </v-container>
 </template>
@@ -82,6 +83,7 @@ export default {
 
 <style scoped>
 .contai {
+    overflow: auto;
     height: 87dvh;
 }
 

@@ -15,6 +15,7 @@ import {
   getFirestore,
   updateDoc,
 } from "firebase/firestore";
+
 const baseApi: string = "https://api.anilibria.tv/v3/title/";
 
 export const api = createStore({
@@ -29,8 +30,8 @@ export const api = createStore({
       filter: {
         method: "",
         params: {
-          genres: "",
-          year: "",
+          genres: undefined,
+          year: undefined,
         },
       },
     },
@@ -88,7 +89,6 @@ export const api = createStore({
         console.error("Error fetching data:", error);
       } finally {
         store.dispatch("getRequestList", true);
-        console.log("Request Received");
       }
     },
 
@@ -102,7 +102,6 @@ export const api = createStore({
         console.error("Error fetching data:", error);
       } finally {
         store.dispatch("getRequestNewAnimeList", true);
-        console.log("Request Received New Ainme!");
       }
     },
 
@@ -122,7 +121,6 @@ export const api = createStore({
         console.error("Error fetching data:", error);
       } finally {
         store.dispatch("getRequestSearch", true);
-        console.log("Request Received");
       }
     },
 
@@ -150,7 +148,6 @@ export const api = createStore({
         }
       } finally {
         store.dispatch("getRequestInfo", true);
-        console.log("Request Received");
       }
     },
     async fetchForFilter() {
@@ -165,8 +162,6 @@ export const api = createStore({
         store.dispatch("getYears", responseYear.data);
       } catch (error: any) {
         console.error("Error fetching data:", error);
-      } finally {
-        console.log("Request Received");
       }
     },
 
@@ -181,13 +176,11 @@ export const api = createStore({
         console.error("Error fetching data:", error);
       } finally {
         store.commit("ReqestYoutube", true);
-        console.log("Request Received");
       }
     },
 
     async fetchRandom() {
       const ERROR_FETCHING_DATA = "Error fetching data:";
-      const REQUEST_RECEIVED = "Request Received";
 
       try {
         const responseGenres = await axios.get(baseApi + "random");
@@ -197,7 +190,6 @@ export const api = createStore({
         console.error(ERROR_FETCHING_DATA, error);
       } finally {
         store.dispatch("getRequestRandom", true);
-        console.log(REQUEST_RECEIVED);
       }
     },
 
@@ -208,7 +200,6 @@ export const api = createStore({
       if (!userId) {
         console.log("User not found", userId);
       }
-      console.log("works", userId);
       const collectionRef = collection(firestore, `users/${userId?.uid}/likes`);
 
       try {
@@ -224,7 +215,6 @@ export const api = createStore({
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        console.log("Request Received");
         store.commit("RequestAnimeFav", true);
       }
     },
@@ -237,11 +227,7 @@ export const api = createStore({
           firestore,
           `users/${auth.currentUser?.uid}/likes/${id}`
         );
-
-        console.log(`Deleting document with ID: ${id}`);
         await deleteDoc(docRef);
-        console.log(`Document with ID ${id} deleted`);
-
         // If needed, perform an update after successful deletion (replace with actual update logic)
         // await updateDoc(docRef, { /* updated fields */ });
       } catch (error) {
@@ -291,8 +277,6 @@ api.watch(
 
 api.watch(
   (state) => [
-    state.search.method,
-    state.search.params,
     state.search.filter.params.genres,
     state.search.filter.params.year,
   ],

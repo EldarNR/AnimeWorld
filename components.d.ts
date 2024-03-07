@@ -31,6 +31,7 @@ declare module 'vue' {
     Loading: typeof import('./src/components/UIElements/Loading.vue')['default']
     Login: typeof import('./src/components/UIElements/Login.vue')['default']
     MediaPlayer: typeof import('./src/components/UIElements/MediaPlayer.vue')['default']
+    MenuMobile: typeof import('./src/components/UIElements/MenuMobile.vue')['default']
     ModalSearch: typeof import('./src/components/Layout/modalSearch.vue')['default']
     Navbar: typeof import('./src/components/Layout/Navbar.vue')['default']
     Pagination: typeof import('./src/components/UIElements/Pagination.vue')['default']

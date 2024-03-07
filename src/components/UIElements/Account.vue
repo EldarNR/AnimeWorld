@@ -16,7 +16,7 @@
             </v-menu>
 
         </div>
-        <v-btn color="info" class="ml-2" @click="goToLogin" v-else>Login</v-btn>
+        <v-btn color="info" class="ml-2" @click="goToLogin" v-else>Вход в систему</v-btn>
     </v-list-item>
 </template>
 

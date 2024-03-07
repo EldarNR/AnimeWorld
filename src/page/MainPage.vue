@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid id="schedule">
+    <v-container fluid id="schedule" class="contai">
         <Header :class="!getThem" />
         <v-main>
             <v-divider :thickness="5" class="ma-2"></v-divider>
@@ -8,6 +8,7 @@
         </v-main>
         <pagination />
     </v-container>
+
 </template>
 
 <script lang="ts">

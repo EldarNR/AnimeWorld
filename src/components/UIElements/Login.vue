@@ -1,6 +1,6 @@
 <template>
     <form class="form mt-3">
-        <span class="text-h3 ">Login</span>
+        <span class="text-h4 ">Логин</span>
         <div class="flex-column">
             <label>Email </label>
         </div>
@@ -12,11 +12,12 @@
                     </path>
                 </g>
             </svg>
-            <input placeholder="Enter your Email" autocomplete="email" v-model="email" class="input" type="text">
+            <input placeholder="Введите свой Email" autocomplete="email" v-model.trim.lazy="email" class="input"
+                type="text">
         </div>
 
         <div class="flex-column">
-            <label>Password </label>
+            <label>Пароль </label>
         </div>
         <div class="inputForm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="-64 0 512 512" height="20">
@@ -27,28 +28,24 @@
                     d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
                 </path>
             </svg>
-            <input current-password autocomplete="password" v-model="password" placeholder="Enter your Password"
+            <input current-password autocomplete="password" v-model.trim.lazy="password" placeholder="Введите пароль"
                 class="input" type="password">
         </div>
 
         <div class="flex-row">
             <div>
                 <input @click="remember = !remember" type="radio">
-                <label> Remember me </label>
+                <label> Запомнить </label>
             </div>
-            <span class="span">Forgot password?</span>
+            <span class="span">Забыли пароль?</span>
         </div>
 
-        <v-btn class="button-submit" @click="signIn">Sign In</v-btn>
+        <v-btn class="button-submit" @click="signIn">Войти</v-btn>
 
-        <p class="p">Don't have an account? <span class="span">Sign Up</span>
+        <p>У вас нет аккаунта? <span class="span">Зарегистрироваться</span>
 
         </p>
-        <p class="p line">Or</p>
 
-
-        <span class="p line">Email: <b>Demo</b>
-            Password: <b>Demo</b></span>
     </form>
 </template>
 
@@ -56,13 +53,12 @@
 import { defineComponent } from "vue";
 import { base } from "../../main"
 import { store } from "../../state";
-import { api } from "../../state/api";
 import { getAuth, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { getDatabase, onValue, ref } from "firebase/database";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
 
-const EMPTY_FIELDS_ERROR = "Email or password cannot be empty";
-const AUTH_ERROR = "Invalid email or password";
+
+const EMPTY_FIELDS_ERROR = "Электронная почта или пароль не могут быть пустыми";
+const AUTH_ERROR = "Неверный адрес электронной почты или пароль";
 
 export default defineComponent({
     data() {

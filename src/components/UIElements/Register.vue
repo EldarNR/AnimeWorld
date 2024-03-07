@@ -4,9 +4,9 @@
             bottom></v-progress-linear>
         <v-alert color="success" v-if="success.alert" class="text-center" title="Account created"
             text="Go to the Login and sign in"></v-alert>
-        <span class="text-h3 ">Register</span>
+        <span class="text-h4 ">Регистрация</span>
         <div class="flex-column">
-            <label>Your Name</label>
+            <label>Ваше имя</label>
         </div>
         <div class="inputForm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 24 24">
@@ -14,7 +14,7 @@
                 <path
                     d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
             </svg>
-            <input placeholder="Create your Name" autocomplete="name" v-model="name" class="input" type="text">
+            <input placeholder="Введите ваше имя" autocomplete="name" v-model="name" class="input" type="text">
         </div>
         <div class="flex-column">
             <label>Email </label>
@@ -27,11 +27,11 @@
                     </path>
                 </g>
             </svg>
-            <input placeholder="Create your Email" autocomplete="email" v-model="email" class="input" type="text">
+            <input placeholder="Введите свой Email" autocomplete="email" v-model="email" class="input" type="text">
         </div>
 
         <div class="flex-column">
-            <label>Password </label>
+            <label>Пароль </label>
         </div>
         <div class="inputForm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="-64 0 512 512" height="20">
@@ -42,7 +42,7 @@
                     d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
                 </path>
             </svg>
-            <input current-password autocomplete="password" v-model="password" placeholder="Create your Password"
+            <input current-password autocomplete="password" v-model="password" placeholder="Создайте свой пароль"
                 class="input" type="password">
         </div>
         <v-alert v-if="error.alert" density="compact" type="warning" title="Ошибка!" :text="error.message"></v-alert>
@@ -55,7 +55,7 @@
                     d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0">
                 </path>
             </svg>
-            <input current-password autocomplete="password" v-model="repeatPassword" placeholder="Repeat your password"
+            <input current-password autocomplete="password" v-model="repeatPassword" placeholder="Повторите свой пароль"
                 class="input" type="password">
         </div>
 
@@ -66,7 +66,7 @@
         </span>
 
 
-        <v-btn class="button-submit" @click="register">Sign In</v-btn>
+        <v-btn class="button-submit" @click="register">Создать</v-btn>
 
     </form>
 </template>

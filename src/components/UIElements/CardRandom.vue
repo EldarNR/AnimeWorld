@@ -1,8 +1,8 @@
 <template>
     <v-card class="mx-auto text-center rounded-xl" max-width="350">
         <div align="center">
-            <v-img :src="`https://anilibria.tv${anim.posters.small.url}`" max-width="350px" alt="poster"
-                cover></v-img>
+            <v-img :src="`https://anilibria.tv${anim.posters.medium.url}`" max-width="350px" alt="poster" cover
+                :lazy-src="`https://anilibria.tv${anim.posters.small.url}`"></v-img>
         </div>
 
         <v-card-title>
@@ -26,7 +26,7 @@
                 size="25">mdi-clover</v-icon></v-btn>
     </v-card>
 </template>
-  
+
 <script lang="ts">
 import { store } from '../../state';
 import { api } from '../../state/api';
@@ -42,6 +42,9 @@ interface CardData {
     description: string;
     posters: {
         original: {
+            url: string;
+        },
+        medium: {
             url: string;
         },
         small: {

@@ -6,7 +6,8 @@
             </template>
 
             <div align="center" class="pt-2">
-                <v-img :src="`https://anilibria.tv${cardData.posters.original.url}`" alt="poster" cover></v-img>
+                <v-img :src="`https://anilibria.tv${cardData.posters.medium.url}`" max-width="350px"
+                    :lazy-src="`https://anilibria.tv${cardData.posters.small.url}`" alt="poster" cover></v-img>
             </div>
             <v-card-item>
                 <v-card-title class="text-justify">{{ cardData.names.ru }}</v-card-title>
@@ -19,7 +20,7 @@
             <v-card-text>
                 <v-row class="mx-0">
                     <v-chip-group class="my-4 text-subtitle-1 " fluid>
-                        <v-chip v-for="item in cardData.genres" :key="item" class="mt-1">{{ item }}</v-chip>
+                        <v-chip v-for=" item  in  cardData.genres " :key="item" class="mt-1">{{ item }}</v-chip>
                     </v-chip-group>
                 </v-row>
                 <div class="custom-truncate text-justify">{{ cardData.description }}</div>
@@ -27,7 +28,7 @@
 
             <v-divider class="mx-4 mb-1"></v-divider>
             <v-card-actions>
-                <v-btn color="deep-purple-lighten-2" variant="text" @click="goToInfo(cardData.id)">Смотреть 
+                <v-btn color="deep-purple-lighten-2" variant="text" @click="goToInfo(cardData.id)">Смотреть
                     <v-icon>mdi-play-circle-outline</v-icon></v-btn>
                 <btn-favorite :post="cardData" />
             </v-card-actions>
@@ -35,7 +36,7 @@
         </v-card>
     </v-lazy>
 </template>
-  
+
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
@@ -71,7 +72,7 @@ export default defineComponent({
     }
 });
 </script>
-  
+
 <style scoped>
 .custom-truncate {
     display: -webkit-box;
@@ -81,4 +82,3 @@ export default defineComponent({
     text-overflow: ellipsis;
 }
 </style>
-  

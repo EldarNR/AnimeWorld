@@ -1,10 +1,10 @@
 <template>
   <v-lazy :min-height="200" :options="{ 'threshold': 0.5 }" transition="fade-transition">
     <section id="comment_input">
-      <span>Comment</span>
-      <v-text-field v-model="post.name" label="Your name" required></v-text-field>
+      <span>Комментарий</span>
+      <v-text-field v-model="post.name" label="Ваше имя" required></v-text-field>
       <v-textarea counter v-model="post.text" :rules="rules" append-icon="mdi-send" variant="filled"
-        clear-icon="mdi-close-circle" clearable label="Message" type="text" @click:append="sendMessage"></v-textarea>
+        clear-icon="mdi-close-circle" clearable label="Сообщение" type="text" @click:append="sendMessage"></v-textarea>
     </section>
   </v-lazy>
 </template>
