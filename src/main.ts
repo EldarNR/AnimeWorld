@@ -8,6 +8,12 @@ import App from "./App.vue";
 import { store } from "../src/state/index";
 import { api } from "./state/api";
 import { firebaseConfig } from "./state/firebase";
+import MainPage from "../src/page/MainPage.vue";
+import Content from "../src/page/Content.vue";
+import Serial from "../src/page/Serial.vue";
+import Login from "../src/page/Login.vue";
+import Favorite from "../src/page/Favorite.vue";
+import Error404 from "../src/page/Error/Error404.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,17 +21,17 @@ const router = createRouter({
     {
       name: "Home",
       path: "/",
-      component: () => import("../src/page/MainPage.vue"),
+      component: MainPage,
     },
     {
       name: "Content",
       path: "/content/",
-      component: () => import("../src/page/Content.vue"),
+      component: Content,
     },
     {
       name: "Serial",
       path: "/content/:id",
-      component: () => import("./page/Serial.vue"),
+      component: Serial,
       meta: {
         requiresData: true,
       },
@@ -34,17 +40,17 @@ const router = createRouter({
     {
       name: "Login",
       path: "/login",
-      component: () => import("./page/Login.vue"),
+      component: Login,
     },
     {
       name: "Favorite",
       path: "/content/favorite",
-      component: () => import("./page/Favorite.vue"),
+      component: Favorite,
     },
     {
       name: "Error404",
       path: "/:catchAll(.*)",
-      component: () => import("./page/Error/Error404.vue"),
+      component: Error404,
       meta: {
         isErrorPage: true,
       },
@@ -52,7 +58,7 @@ const router = createRouter({
 
     {
       path: "/content/:catchAll(.*)",
-      component: () => import("./page/Error/Error404.vue"),
+      component: Error404,
     },
   ],
 });
