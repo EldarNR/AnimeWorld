@@ -74,7 +74,6 @@ export default {
         },
         getId({ id, title, description, img }: { id: number; title: string; description: string; img: string }) {
             store.dispatch("getIdAnime", { id, title, description, img });
-            console.log({ id, title, description, img });
         },
         getImg() {
             this.imageLoaded = true;

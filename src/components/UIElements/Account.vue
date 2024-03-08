@@ -53,7 +53,6 @@ export default {
         Logout() {
             const auth = getAuth();
             signOut(auth).then(() => {
-                console.log("Вы вышли из аккаунта")
                 store.commit("setUser", { remember: false });
             }).catch((error) => {
                 console.log("ошибка", error)

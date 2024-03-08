@@ -131,8 +131,6 @@ export default defineComponent({
                 // Успешно зарегистрировали пользователя, теперь записываем данные в базу данных
                 await this.writeUserData(userId, this.name, this.email, "");
 
-
-                console.log("User created:", userId, this.name, this.email);
             } catch (error: any) {
                 let errorMessage = "";
                 switch (error.code) {

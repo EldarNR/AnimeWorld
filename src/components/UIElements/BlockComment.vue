@@ -47,8 +47,6 @@ export default defineComponent({
           text: this.post.text,
           timestamp: new Date(),
         });
-
-        console.log('Комментарий успешно добавлен');
         // Очистка формы после успешной отправки
         this.post.name = '';
         this.post.text = '';

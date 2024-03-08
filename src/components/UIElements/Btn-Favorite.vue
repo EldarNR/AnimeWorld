@@ -41,17 +41,14 @@ export default {
             const firestore = getFirestore();
 
             if (!auth.currentUser) {
-                console.log(auth.currentUser)
                 return;
             }
             else {
-                console.log(auth.currentUser)
                 const userCollection = collection(firestore, `users/${auth.currentUser?.uid}/likes`);
                 const { id, names, description, posters } = post;
                 const title = names.ru;
                 const img = posters.original.url;
                 await addDoc(userCollection, { id, title, description, img });
-                console.log({ id, title, description, img });
             }
 
         },

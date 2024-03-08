@@ -91,7 +91,6 @@ export default defineComponent({
                             const data = snapshot.val();
                             if (data) {
                                 await updateProfile(user, { displayName: `${data.username}` });
-                                console.log("User:", userCredential);
                                 store.commit("setUser", { userUid: user.uid, user: userCredential.user.displayName, useremail: userCredential.user.email, remember: this.remember });
                                 this.$router.push({ name: "Home" });
                             }

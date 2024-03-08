@@ -47,14 +47,6 @@ const router = createRouter({
       path: "/content/favorite",
       component: Favorite,
     },
-    {
-      name: "Error404",
-      path: "/:catchAll(.*)",
-      component: Error404,
-      meta: {
-        isErrorPage: true,
-      },
-    },
 
     {
       path: "/content/:catchAll(.*)",

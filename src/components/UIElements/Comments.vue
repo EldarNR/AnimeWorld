@@ -71,7 +71,6 @@ export default defineComponent({
         const loadLikes = async () => {
             try {
                 await Promise.all(comments.value.map(async comment => {
-                    console.log('Comment ID:', comment.id); // Добавляем эту строку для проверки
                     const likeCollection = collection(database, `pages/${props.id}/comments/${comment.id}/likes`);
                     const querySnapshot = await getDocs(likeCollection);
                     comment.likes = querySnapshot.docs.map(doc => doc.data());
@@ -82,7 +81,6 @@ export default defineComponent({
         };
 
         const addLike = async (clickedComment: Comment) => {
-            console.log(clickedComment, "clicked")
             try {
                 const likeCollection = collection(database, `pages/${props.id}/comments/${clickedComment.id}/likes`);
 
@@ -96,14 +94,12 @@ export default defineComponent({
                         userUid: user?.uid,
                         like: true
                     });
-                    console.log(`Пользователь ${user?.uid} добавил лайк!`);
+
 
                     // После добавления лайка обновляем данные только для кликнутого комментария
                     const updatedCommentLikes = likes.concat(user?.uid);
                     clickedComment.likes = updatedCommentLikes;
 
-                } else {
-                    console.log(`Пользователь ${user?.uid} уже поставил лайк этому комментарию!`);
                 }
             } catch (error) {
                 alert.value = true;

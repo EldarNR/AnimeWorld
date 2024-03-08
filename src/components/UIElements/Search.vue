@@ -37,11 +37,6 @@ export default defineComponent({
             { title: 'Click Me 2' },
         ],
     }),
-    methods: {
-        logValue(event: any) {
-            console.log(event);
-        },
-    },
     setup() {
         const store = useStore();
         const inputValue = ref("");

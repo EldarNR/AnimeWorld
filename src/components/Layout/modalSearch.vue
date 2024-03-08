@@ -86,14 +86,12 @@ export default {
     watch: {
         inputValue(value: string) {
             if (value && value.trim().length >= 6) {
-                console.log("Input value changed:", value);
                 api.dispatch('setSearchParams', value);
             }
         },
     },
     methods: {
         search() {
-            console.log("Search button clicked");
             if (typeof this.inputValue === 'string' && this.inputValue.trim() !== "") {
                 api.dispatch('setSearchParams', this.inputValue.trim());
             }
